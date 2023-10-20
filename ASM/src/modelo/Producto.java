@@ -13,6 +13,7 @@ public class Producto {
     private String idControlCantidades;
     private String idProveedor;
     
+    
     public Producto(String id,String nombre,String descripcion, double precioPublico,
             String idControlCantidades,String idProveedor){
         this.id = id;
@@ -28,10 +29,15 @@ public class Producto {
         return id;
     }
 
-    //metodo compare no sea menor a cero y pd_'id consecutivo'
-    public void setId(String id){
+    public void setId(int id){
         
-        this.id = id;
+        if(id > 00){
+            System.out.println("ID final: "+"pd_"+id);
+            this.id = "pd_"+id;
+            
+        }else{
+            System.out.println("Valor del ID invalido");
+        }
     }
 
     
@@ -80,6 +86,5 @@ public class Producto {
     public void setPrecioPublico(double precioPublico){
         this.precioPublico = precioPublico;
     }
-    
     
 }
