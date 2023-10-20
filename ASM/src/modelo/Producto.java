@@ -28,8 +28,9 @@ public class Producto {
         return id;
     }
 
-    
-    public void setId(String id) {
+    //metodo compare no sea menor a cero y pd_'id consecutivo'
+    public void setId(String id){
+        
         this.id = id;
     }
 
