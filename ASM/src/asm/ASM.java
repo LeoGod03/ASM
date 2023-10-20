@@ -19,8 +19,8 @@ public class ASM {
     public static void main(String[] args) {
         Producto producto;
         ProductoDao productoDao = new ProductoDao();
-        producto = new Producto("Pd_1","TornilloWS","Tornillo para tabique",21,"pr_1","pc_1");
-        productoDao.actualizarProducto(producto);
+        producto = productoDao.buscarProducto(new Producto("Pd_1","","",0,"",""));
+        System.out.println("Nombre " + producto.getNombre() + " Descripcion " + producto.getDescripcion());
         
     }
     

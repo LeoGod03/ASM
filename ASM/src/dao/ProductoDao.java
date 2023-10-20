@@ -84,7 +84,7 @@ public class ProductoDao {
                 ResultSet resultado = comando.executeQuery();
 		if(resultado.next()){
                     productoResultado = new Producto(resultado.getString("id_producto"),
-                                            resultado.getString("nombre"),
+                                            resultado.getString("nombre_producto"),
                                             resultado.getString("descripcion"),
                                             resultado.getDouble("precio_publico"),
                                             resultado.getString("id_control_cantidades"),
