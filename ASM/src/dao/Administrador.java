@@ -21,8 +21,8 @@ public class Administrador {
 	
 	public Administrador() {
 		url = "jdbc:postgresql://127.0.0.1:5432/AMS";
-		usuarioBD = "TlapaAdmin";
-		contrasenaBD = "Tlapa";
+		usuarioBD = "postgres";
+		contrasenaBD = "p057gr35";
 	}
 	
 	public  Connection dameConexion() {
