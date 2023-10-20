@@ -31,7 +31,7 @@ public class Producto {
 
     public void setId(int id){
         
-        if(id > 00){
+        if(id > 0){
             System.out.println("ID final: "+"pd_"+id);
             this.id = "pd_"+id;
             
