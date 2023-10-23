@@ -7,6 +7,8 @@ package asm;
 import dao.ProductoDao;
 import modelo.Producto;
 
+
+
 /**
  *
  * @author leopa
@@ -17,10 +19,14 @@ public class ASM {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Producto producto;
         ProductoDao productoDao = new ProductoDao();
-        producto = productoDao.buscarProducto(new Producto("Pd_1","","",0,"",""));
-        System.out.println("Nombre " + producto.getNombre() + " Descripcion " + producto.getDescripcion());
+        
+        productoDao.insertar(new Producto("Pd_2","Mata ratas","Extermina las ratas de tu hogar :D",345,"Pr_3"));
+        productoDao.insertar(new Producto("Pd_3","Martillo","Construccion",216,"Pr_5"));
+        productoDao.insertar(new Producto("Pd_4","Pintura","Estetica",800,"Pr_6"));
+        productoDao.insertar(new Producto("Pd_5","Aerosol","Estetica",245,"Pr_7"));
+        FrmLogin login = new FrmLogin();
+        login.setVisible(true);
         
     }
     

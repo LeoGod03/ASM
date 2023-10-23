@@ -26,7 +26,7 @@ public class ProductoDao {
     public void insertar (Producto producto) {
 		
 	Connection conexion = administrador.dameConexion();
-	String comandoSQL = "INSERT INTO inventario VALUES(?,?,?,?,?,?)";
+	String comandoSQL = "INSERT INTO inventario VALUES(?,?,?,?,?)";
 	PreparedStatement comando;
 	try {
 		comando = conexion.prepareStatement(comandoSQL);
@@ -35,7 +35,6 @@ public class ProductoDao {
                 comando.setString(3, producto.getDescripcion());
                 comando.setDouble(4, producto.getPrecioPublico());
                 comando.setString(5, producto.getIdProveedor());
-                comando.setString(6, producto.getIdControlCantidades());
                 comando.executeUpdate();
                 comando.close();
 	} catch (SQLException e) {
@@ -47,20 +46,19 @@ public class ProductoDao {
     }
     
     public ArrayList<Producto> pedirTabla(){
-        ArrayList<Producto> productos = new ArrayList<>();
+        ArrayList<Producto> productos = new ArrayList<Producto>();
         Producto producto;
         Connection conexion = administrador.dameConexion();
-	String comandoSQL = "SELECT * FROM inventario";
+	String comandoSQL = "SELECT * FROM inventario ORDER BY id_producto ASC";
 	PreparedStatement comando;
 	try {
 		comando = conexion.prepareStatement(comandoSQL);
                 ResultSet resultado = comando.executeQuery();
 		while(resultado.next()){
                     producto = new Producto(resultado.getString("id_producto"),
-                                            resultado.getString("nombre"),
+                                            resultado.getString("nombre_producto"),
                                             resultado.getString("descripcion"),
                                             resultado.getDouble("precio_publico"),
-                                            resultado.getString("id_control_cantidades"),
                                             resultado.getString("id_proveedor"));
                     productos.add(producto);
                 }
@@ -87,7 +85,6 @@ public class ProductoDao {
                                             resultado.getString("nombre_producto"),
                                             resultado.getString("descripcion"),
                                             resultado.getDouble("precio_publico"),
-                                            resultado.getString("id_control_cantidades"),
                                             resultado.getString("id_proveedor"));
                 }
                 comando.close();
@@ -107,8 +104,7 @@ public class ProductoDao {
                 "SET nombre_producto = '" + producto.getNombre()+"',"+
                 "descripcion = '" + producto.getDescripcion()+"',"+
                 "precio_publico = " + producto.getPrecioPublico()+","+
-                "id_proveedor = '" + producto.getIdProveedor()+"',"+
-                "id_control_cantidades = '" + producto.getIdControlCantidades()+"' "+
+                "id_proveedor = '" + producto.getIdProveedor()+"'"+
                 "where id_producto like '" + producto.getId()+"';";
 	PreparedStatement comando;
 	try {
@@ -122,5 +118,21 @@ public class ProductoDao {
 	administrador.cerrarConexion();
     }
     
+    
+    public void eliminarProducto(Producto producto){
+        Connection conexion = administrador.dameConexion();
+	String comandoSQL;
+        comandoSQL = "DELETE FROM inventario WHERE id_producto like '"+producto.getId()+"';";
+	PreparedStatement comando;
+	try {
+		comando = conexion.prepareStatement(comandoSQL);
+                comando.executeUpdate();
+                comando.close();
+	} catch (SQLException e) {
+		System.out.println(e.getMessage());
+	}
+		
+	administrador.cerrarConexion();
+    }
         
 }
