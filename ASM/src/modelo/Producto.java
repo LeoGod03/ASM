@@ -5,21 +5,21 @@
 package modelo;
 
 
-public class Producto {
+public final class Producto {
     private String id;
     private String nombre;
     private String descripcion;
     private double precioPublico;
-    private String idControlCantidades;
     private String idProveedor;
+    private int cantidadInventario;
     
-    public Producto(String id,String nombre,String descripcion, double precioPublico,
-            String idControlCantidades,String idProveedor){
+    
+    public Producto(String id,String nombre,String descripcion, double precioPublico,String idProveedor,int cantidadInventario){
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.precioPublico = precioPublico;
-        this.idControlCantidades = idControlCantidades;
+        this.setPrecioPublico(precioPublico);
+        this.setCantidadInventario(cantidadInventario);
         this.idProveedor = idProveedor;
     }
 
@@ -28,9 +28,12 @@ public class Producto {
         return id;
     }
 
-    
-    public void setId(String id) {
-        this.id = id;
+    public void setId(int id){
+        
+        if(id > 0)
+            this.id = "Pd_"+id;   
+        else
+            System.out.println("Valor del ID invalido");
     }
 
     
@@ -53,16 +56,7 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    
-    public String getIdControlCantidades() {
-        return idControlCantidades;
-    }
-
-    
-    public void setIdControlCantidades(String idControlCantidades) {
-        this.idControlCantidades = idControlCantidades;
-    }
-
+   
     
     public String getIdProveedor() {
         return idProveedor;
@@ -79,6 +73,20 @@ public class Producto {
     public void setPrecioPublico(double precioPublico){
         this.precioPublico = precioPublico;
     }
-    
+    @Override
+    public String toString() {
+        return "id = "+id+"   nombre = "+nombre+"   descripcion = "+descripcion+"    precio_publico = "+precioPublico+ "   id_proveedor =" +idProveedor;
+    }
+
+    public int getCantidadInventario() {
+        return cantidadInventario;
+    }
+
+    public void setCantidadInventario(int cantidadInventario) {
+        if(cantidadInventario > 0)
+            this.cantidadInventario = cantidadInventario;
+        else 
+            this.cantidadInventario = 1;
+    }
     
 }

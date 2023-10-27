@@ -8,14 +8,14 @@ package modelo;
  *
  * @author arral
  */
-public class proveedor {
+public class Proveedor {
     private String id;
     private String nombre;
     private String numero;
     private String correo;
     private String idDiaeReparto;
 
-    public proveedor(String id, String nombre, String numero, String correo, String idDiaeReparto) {
+    public Proveedor(String id, String nombre, String numero, String correo, String idDiaeReparto) {
         this.id = id;
         this.nombre = nombre;
         this.numero = numero;
@@ -45,12 +45,9 @@ public class proveedor {
 
        public void setId(int id) {
        if(id > 0)
-       {
-           this.id ="pr_" + id;
-       }
-       else {
+           this.id ="Pr_" + id;
+       else
            System.out.println("Valor ID invalido");
-       }
     }
 
     public void setNombre(String nombre) {
