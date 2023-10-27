@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import modelo.Producto;
 
 public class ProductoDao {
@@ -23,23 +24,30 @@ public class ProductoDao {
         administrador = new Administrador();
     }
     
-    public void insertar (Producto producto) {
+    public void insertar (Producto producto) throws SQLException {
 		
 	Connection conexion = administrador.dameConexion();
-	String comandoSQL = "INSERT INTO inventario VALUES(?,?,?,?,?,?)";
 	PreparedStatement comando;
+        String comandoSQL;
 	try {
-		comando = conexion.prepareStatement(comandoSQL);
-		comando.setString(1, producto.getId());
-                comando.setString(2,producto.getNombre());
-                comando.setString(3, producto.getDescripcion());
-                comando.setDouble(4, producto.getPrecioPublico());
-                comando.setString(5, producto.getIdProveedor());
-                comando.setInt(6, producto.getCantidadInventario());
-                comando.executeUpdate();
-                comando.close();
+            conexion.setAutoCommit(false);
+            comandoSQL = "INSERT INTO inventario VALUES(?,?,?,?,?,?)";
+            comando = conexion.prepareStatement(comandoSQL);
+            comando.setString(1, producto.getId());
+            comando.setString(2,producto.getNombre());
+            comando.setString(3, producto.getDescripcion());
+            comando.setDouble(4, producto.getPrecioPublico());
+            comando.setString(5, producto.getIdProveedor());
+            comando.setInt(6, producto.getCantidadInventario());
+            //comandoSQL = "INSERT INTO control_cantidades VALUES(?,?,?)";
+            //comando = conexion.prepareStatement(comandoSQL);
+            
+            comando.executeUpdate();
+            conexion.commit();
+            comando.close();
 	} catch (SQLException e) {
-		System.out.println(e.getMessage());
+            conexion.rollback();
+            JOptionPane.showMessageDialog(null, "Error en el registro del producto", "Error",JOptionPane.ERROR_MESSAGE);
 	}
 		
 	administrador.cerrarConexion();
