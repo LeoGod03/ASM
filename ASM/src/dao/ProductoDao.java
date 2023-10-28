@@ -41,6 +41,8 @@ public class ProductoDao {
             comando.setInt(6, producto.getCantidadInventario());
             //comandoSQL = "INSERT INTO control_cantidades VALUES(?,?,?)";
             //comando = conexion.prepareStatement(comandoSQL);
+            //------------>falta la cantidad minima y la cantidad de pedido, en la clase normal
+            //------------>despues para esta clase
             
             comando.executeUpdate();
             conexion.commit();

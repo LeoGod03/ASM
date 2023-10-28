@@ -25,6 +25,8 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
         txtaDescripcion.setText(producto.getDescripcion());
         txtPrecio.setText(String.valueOf(producto.getPrecioPublico()));
         txtProveedor.setText(producto.getIdProveedor());
+        CantidadMinima.setText(String.valueOf(producto.getCantidadMinima()));
+        txtCantidadPedido.setText(String.valueOf(producto.getCantidadPedido()));
     }
 
     /**
@@ -187,27 +189,66 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
         ProductoDao productoDao = new ProductoDao();
         Double precio;
         int cantidadInventario;
-        try
-        {
-            precio = Double.valueOf(txtPrecio.getText());
-            cantidadInventario = Integer.parseInt(txtCantidadInventario.getText());
-            Producto producto = new Producto(id,
-                                         txtNombre.getText(),
-                                         txtaDescripcion.getText(),
-                                         precio,
-                                         txtProveedor.getText(),
-                                                        cantidadInventario);
-            JOptionPane.showMessageDialog(null,"Producto actualizado con exito","Exito crack", JOptionPane.INFORMATION_MESSAGE);
-            
-            setVisible(false);
-         productoDao.actualizarProducto(producto);
-         inventario.limpiarTabla();
-         inventario.llenarTabla();
+        boolean formLleno;
+        formLleno= true;
          
+        
+        
+        if(txtPrecio.getText() .equals("")){
+           formLleno= false;
+       }
+        
+        if(txtCantidadInventario.getText() .equals("")){
+           formLleno= false;
+       }
+        
+       if(txtNombre.getText() .equals("")){
+           formLleno= false;
+       }
+       
+       if(txtaDescripcion.getText() .equals("")){
+           formLleno = false;
+       }
+       
+       if(txtProveedor.getText() .equals("")){
+           formLleno = false;
+       }
+        
+       if(formLleno)
+        {
+         try
+         {
+             int cantidadMinima=Integer.parseInt(CantidadMinima.getText());
+             int cantidadPedido=Integer.parseInt(txtCantidadPedido.getText());
+            if(cantidadMinima > 0 && cantidadPedido >= 0)
+            {
+                precio = Double.valueOf(txtPrecio.getText());
+                cantidadInventario = Integer.parseInt(txtCantidadInventario.getText());
+                Producto producto = new Producto(id,
+                                             txtNombre.getText(),
+                                             txtaDescripcion.getText(),
+                                             precio,
+                                             txtProveedor.getText(),
+                                                            cantidadInventario,
+                                                            cantidadMinima,
+                                                            cantidadPedido);
+                JOptionPane.showMessageDialog(null,"Producto actualizado con exito","Exito crack", JOptionPane.INFORMATION_MESSAGE);
+
+                setVisible(false);
+             productoDao.actualizarProducto(producto);
+             inventario.limpiarTabla();
+             inventario.llenarTabla();
+          }else{
+                 JOptionPane.showMessageDialog(null,"Ingrese valores apropiados en las cantidades minimas, de pedido y precio","Error a actualizar", JOptionPane.ERROR_MESSAGE);
+          }
+       
         }catch(NumberFormatException nfe){
-            System.out.print(nfe.getMessage());
-            JOptionPane.showMessageDialog(null,"Valor de precio invalido","Error a actualizar", JOptionPane.ERROR_MESSAGE);
-        }
+             System.out.print(nfe.getMessage());
+             JOptionPane.showMessageDialog(null,"Algun dato es invalido revisa por favor","Error a actualizar", JOptionPane.ERROR_MESSAGE);
+         }
+       }else{
+           JOptionPane.showMessageDialog(null,"Datos incompletos, favor de llenar bien los campos","Error a actualizar", JOptionPane.ERROR_MESSAGE);
+       }
     }//GEN-LAST:event_btModificarMouseClicked
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -244,7 +285,7 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmActualizar_producto(new Producto("","","",0,"",0),null).setVisible(true);
+                new FrmActualizar_producto(new Producto("","","",0,"",0, 0, 0),null).setVisible(true);
             }
         });
     }
