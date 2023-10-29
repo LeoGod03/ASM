@@ -19,7 +19,8 @@ public final class Producto {
     private int cantidadPedido;
     
     
-    public Producto(String id,String nombre,String descripcion, double precioPublico,String idProveedor,int cantidadInventario, int cantidadMinima, int cantidadPedido){
+    public Producto(String id,String nombre,String descripcion, double precioPublico,String idProveedor,
+                    int cantidadInventario, int cantidadMinima, int cantidadPedido){
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;

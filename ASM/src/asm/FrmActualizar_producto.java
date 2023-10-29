@@ -6,6 +6,7 @@ package asm;
 
 import dao.ProductoDao;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import modelo.Producto;
 
 /**
@@ -25,7 +26,7 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
         txtaDescripcion.setText(producto.getDescripcion());
         txtPrecio.setText(String.valueOf(producto.getPrecioPublico()));
         txtProveedor.setText(producto.getIdProveedor());
-        CantidadMinima.setText(String.valueOf(producto.getCantidadMinima()));
+        txtCantidadMinima.setText(String.valueOf(producto.getCantidadMinima()));
         txtCantidadPedido.setText(String.valueOf(producto.getCantidadPedido()));
     }
 
@@ -53,7 +54,7 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
         lblCantidadInventario = new javax.swing.JLabel();
         txtCantidadInventario = new javax.swing.JTextField();
         lblCantidadMinima = new javax.swing.JLabel();
-        CantidadMinima = new javax.swing.JTextField();
+        txtCantidadMinima = new javax.swing.JTextField();
         lblCantidadPedido = new javax.swing.JLabel();
         txtCantidadPedido = new javax.swing.JTextField();
 
@@ -137,7 +138,7 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(lblCantidadMinima)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(CantidadMinima, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                        .addComponent(txtCantidadMinima, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,7 +157,7 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
                     .addComponent(lblNombre)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblCantidadMinima)
-                    .addComponent(CantidadMinima, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCantidadMinima, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCantidadInventario)
@@ -186,40 +187,27 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btModificarMouseClicked
+       JTextField[] campos = {txtNombre,txtPrecio,txtCantidadInventario,txtProveedor,
+                              txtCantidadMinima,txtCantidadPedido};
         ProductoDao productoDao = new ProductoDao();
         Double precio;
         int cantidadInventario;
-        boolean formLleno;
-        formLleno= true;
-         
-        
-        
-        if(txtPrecio.getText() .equals("")){
-           formLleno= false;
-       }
-        
-        if(txtCantidadInventario.getText() .equals("")){
-           formLleno= false;
-       }
-        
-       if(txtNombre.getText() .equals("")){
-           formLleno= false;
-       }
-       
-       if(txtaDescripcion.getText() .equals("")){
-           formLleno = false;
-       }
-       
-       if(txtProveedor.getText() .equals("")){
-           formLleno = false;
-       }
+        boolean formLleno = true;
+        for(JTextField campo : campos){
+            if(campo.getText().equals("")){
+                formLleno = false;
+                break;
+            }
+        }
+        if(txtaDescripcion.getText().equals(""))
+            formLleno = false;
         
        if(formLleno)
         {
          try
          {
-             int cantidadMinima=Integer.parseInt(CantidadMinima.getText());
-             int cantidadPedido=Integer.parseInt(txtCantidadPedido.getText());
+            int cantidadMinima=Integer.parseInt(txtCantidadMinima.getText());
+            int cantidadPedido=Integer.parseInt(txtCantidadPedido.getText());
             if(cantidadMinima > 0 && cantidadPedido >= 0)
             {
                 precio = Double.valueOf(txtPrecio.getText());
@@ -233,22 +221,20 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
                                                             cantidadMinima,
                                                             cantidadPedido);
                 JOptionPane.showMessageDialog(null,"Producto actualizado con exito","Exito crack", JOptionPane.INFORMATION_MESSAGE);
-
                 setVisible(false);
-             productoDao.actualizarProducto(producto);
-             inventario.limpiarTabla();
-             inventario.llenarTabla();
-          }else{
-                 JOptionPane.showMessageDialog(null,"Ingrese valores apropiados en las cantidades minimas, de pedido y precio","Error a actualizar", JOptionPane.ERROR_MESSAGE);
-          }
+                productoDao.actualizarProducto(producto);
+                inventario.limpiarTabla();
+                inventario.llenarTabla();
+          }else
+                JOptionPane.showMessageDialog(null,"Ingrese valores apropiados en las cantidades minimas, de pedido y precio","Error a actualizar", JOptionPane.ERROR_MESSAGE);
+          
        
         }catch(NumberFormatException nfe){
              System.out.print(nfe.getMessage());
              JOptionPane.showMessageDialog(null,"Algun dato es invalido revisa por favor","Error a actualizar", JOptionPane.ERROR_MESSAGE);
          }
-       }else{
+       }else
            JOptionPane.showMessageDialog(null,"Datos incompletos, favor de llenar bien los campos","Error a actualizar", JOptionPane.ERROR_MESSAGE);
-       }
     }//GEN-LAST:event_btModificarMouseClicked
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -291,7 +277,6 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField CantidadMinima;
     private javax.swing.JButton btCancelar;
     private javax.swing.JButton btModificar;
     private javax.swing.JScrollPane jScrollPane1;
@@ -304,6 +289,7 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
     private javax.swing.JLabel lblPrecioPublico;
     private javax.swing.JLabel lblProveedor;
     private javax.swing.JTextField txtCantidadInventario;
+    private javax.swing.JTextField txtCantidadMinima;
     private javax.swing.JTextField txtCantidadPedido;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecio;

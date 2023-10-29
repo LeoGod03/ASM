@@ -75,7 +75,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="lblCantidadMinima" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="CantidadMinima" min="-2" pref="80" max="-2" attributes="0"/>
+                                      <Component id="txtCantidadMinima" min="-2" pref="80" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -104,7 +104,7 @@
                   <Component id="lblNombre" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtNombre" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblCantidadMinima" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="CantidadMinima" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtCantidadMinima" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -209,7 +209,7 @@
         <Property name="text" type="java.lang.String" value="Cantidad minima en inventario:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="CantidadMinima">
+    <Component class="javax.swing.JTextField" name="txtCantidadMinima">
     </Component>
     <Component class="javax.swing.JLabel" name="lblCantidadPedido">
       <Properties>
