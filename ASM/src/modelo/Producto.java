@@ -12,6 +12,7 @@ public final class Producto {
     private String id;
     private String nombre;
     private String descripcion;
+    private double precioProveedor;
     private double precioPublico;
     private String idProveedor;
     private int cantidadInventario;
@@ -19,22 +20,21 @@ public final class Producto {
     private int cantidadPedido;
     
     
-    public Producto(String id,String nombre,String descripcion, double precioPublico,String idProveedor,
+    public Producto(String id,String nombre,String descripcion,double precioProveedor, double precioPublico,String idProveedor,
                     int cantidadInventario, int cantidadMinima, int cantidadPedido){
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.setPrecioPublico(precioPublico);
         this.setCantidadInventario(cantidadInventario);
+        this.setPrecioProveedor(precioProveedor);
         this.idProveedor = idProveedor;
-        this.cantidadMinima = cantidadMinima;
-        this.cantidadPedido = cantidadPedido;
+        this.setCantidadMinima(cantidadMinima);
+        this.setCantidadPedido(cantidadPedido);
     }
 
    
-    public String getId() {
-        return id;
-    }
+   
 
     public void setId(int id){
         
@@ -44,32 +44,13 @@ public final class Producto {
             System.out.println("Valor del ID invalido");
     }
 
-    
-    public String getNombre() {
-        return nombre;
-    }
-
-    
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-
-   
-    
-    public String getIdProveedor() {
-        return idProveedor;
-    }
-
     
     public void setIdProveedor(String idProveedor) {
         this.idProveedor = idProveedor;
@@ -82,26 +63,35 @@ public final class Producto {
             this.cantidadInventario = 1;
     }
     
-     public int setCantidadPedido() {
-        return cantidadPedido;
+     public void setCantidadPedido(int cantidadPedido) {
+         if(cantidadPedido > 0)
+             this.cantidadPedido = cantidadPedido;
+         else
+             this.cantidadPedido = 1;
     }
      
      public int setCantidadMinima(int cantidadMinima) {
          
-        if (cantidadMinima < 0)
-        {
-         JOptionPane.showMessageDialog(null,"Cantidad minima no valida","Error a actualizar", JOptionPane.ERROR_MESSAGE);
-        } else{
+        if(cantidadMinima > 0)
+            this.cantidadMinima = cantidadMinima;
+        else
             this.cantidadMinima = 1;
-        }
         return cantidadMinima;
     }
 
-    public double getPrecioPublico() {
-        return precioPublico;
-    }
+    
     public void setPrecioPublico(double precioPublico){
-        this.precioPublico = precioPublico; 
+        if(precioPublico > 0)
+            this.precioPublico = precioPublico; 
+        else
+            this.precioPublico = 1;
+    }
+    
+    public void setPrecioProveedor(double precioProveedor){
+        if(precioProveedor > 0)
+            this.precioProveedor = precioProveedor;
+        else
+            this.precioProveedor = 1;
     }
     
     public int getCantidadInventario() {
@@ -116,10 +106,33 @@ public final class Producto {
         return cantidadPedido;
     }
     
+    public double getPrecioPublico() {
+        return precioPublico;
+    }
     
+    public double getPrecioProveedor(){
+        return precioProveedor;
+    }
+    
+     public String getDescripcion() {
+        return descripcion;
+    }
+
+    public String getIdProveedor() {
+        return idProveedor;
+    }
+    
+    public String getNombre() {
+        return nombre;
+    }
+    
+     public String getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
-        String cadena = "id = "+id+" nombre = "+nombre+" descripcion = "+descripcion+" precio_publico = "+precioPublico
+        String cadena = "id = "+id+" nombre = "+nombre+" descripcion = "+descripcion+" precio_proveedor = "+precioProveedor +" precio_publico = "+precioPublico
                       + " id_proveedor =" +idProveedor +" cantidad_inventario: "+cantidadInventario+"Cantidad_minima: "+cantidadMinima
                         +"Cantidad_pedido: " + cantidadPedido;
         return cadena;

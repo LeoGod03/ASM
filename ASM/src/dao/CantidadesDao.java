@@ -39,6 +39,20 @@ public class CantidadesDao {
             JOptionPane.showMessageDialog(null, "Error en el registro del producto", "Error",JOptionPane.ERROR_MESSAGE);
 	}
     }
+    public void Eliminar(Producto producto, Connection conexion){
+        String comandoSQL;
+        comandoSQL = "DELETE FROM control_cantidades WHERE id_producto like '"+producto.getId()+"';";
+	PreparedStatement comando;
+	try {
+		comando = conexion.prepareStatement(comandoSQL);
+                comando.executeUpdate();
+                comando.close();
+	} catch (SQLException e) {
+		System.out.println(e.getMessage());
+	}
+		
+	administrador.cerrarConexion();
+    }
     
     
 }

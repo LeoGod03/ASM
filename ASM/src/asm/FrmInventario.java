@@ -27,6 +27,7 @@ public final class FrmInventario extends javax.swing.JFrame {
         modelo.addColumn("Id Producto");
         modelo.addColumn("Nombre");
         modelo.addColumn("Descripcion");
+        modelo.addColumn("Precio_proveedor");
         modelo.addColumn("Precio publico");
         modelo.addColumn("Id proveedor");
         modelo.addColumn("Cantidad_en_inventario");
@@ -198,11 +199,12 @@ public final class FrmInventario extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(14, 14, 14))
         );
 
@@ -213,7 +215,7 @@ public final class FrmInventario extends javax.swing.JFrame {
 
        Object[] productoObjeto = new Object[1];
        productoObjeto[0] = modelo.getValueAt(tblProductos.getSelectedRow(),0);
-       Producto producto = productoDao.buscarProducto(new Producto((String)productoObjeto[0],"","",0,"",0,0,0));
+       Producto producto = productoDao.buscarProducto(new Producto((String)productoObjeto[0],"","",0,0,"",0,0,0));
        int opcion = JOptionPane.showConfirmDialog(null,"¿Esta seguro de eliminar el producto: " + producto.getId()+"?","Confirmacion",JOptionPane.YES_NO_OPTION);
        if(opcion == 0)
        {
@@ -230,7 +232,7 @@ public final class FrmInventario extends javax.swing.JFrame {
 
        Object[] productoObjeto = new Object[1];
        productoObjeto[0] = modelo.getValueAt(tblProductos.getSelectedRow(),0);
-       Producto producto = productoDao.buscarProducto(new Producto((String)productoObjeto[0],"","",0,"",0,0,0));
+       Producto producto = productoDao.buscarProducto(new Producto((String)productoObjeto[0],"","",0,0,"",0,0,0));
        FrmActualizar_producto actualizar = new FrmActualizar_producto(producto,this);
        actualizar.setVisible(true);
     }//GEN-LAST:event_btnModificarMouseClicked
@@ -241,21 +243,22 @@ public final class FrmInventario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarMouseClicked
 
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
-        Object[] productoObjeto = new Object[8];
+        Object[] productoObjeto = new Object[9];
         if(!txtBuscarID.getText().equals("")){
             try{
                 int numeroID = Integer.parseInt(txtBuscarID.getText());
-               Producto producto = productoDao.buscarProducto(new Producto("Pd_"+numeroID,"","",0,"",0,0,0));
+               Producto producto = productoDao.buscarProducto(new Producto("Pd_"+numeroID,"","",0,0,"",0,0,0));
                 if(producto != null){
                     limpiarTabla();
                     productoObjeto[0] = producto.getId();
                     productoObjeto[1] = producto.getNombre();
                     productoObjeto[2] = producto.getDescripcion();
-                    productoObjeto[3] = producto.getPrecioPublico();
-                    productoObjeto[4] = producto.getIdProveedor();
-                    productoObjeto[5] = producto.getCantidadInventario();
-                    productoObjeto[6] = producto.getCantidadMinima();
-                    productoObjeto[7] = producto.getCantidadPedido();
+                    productoObjeto[3] = producto.getPrecioProveedor();
+                    productoObjeto[4] = producto.getPrecioPublico();
+                    productoObjeto[5] = producto.getIdProveedor();
+                    productoObjeto[6] = producto.getCantidadInventario();
+                    productoObjeto[7] = producto.getCantidadMinima();
+                    productoObjeto[8] = producto.getCantidadPedido();
                     modelo.addRow(productoObjeto);
                     lblCantidadProductos.setText("Productos en inventario: 1");
                 }else{
@@ -333,15 +336,16 @@ public final class FrmInventario extends javax.swing.JFrame {
         limpiarTabla();
         if(producto != null){
             lblCantidadProductos.setText("Cantidad Productos: 1");
-            Object[] productoTabla = new Object[8];
+            Object[] productoTabla = new Object[9];
             productoTabla[0] = producto.getId();
             productoTabla[1] = producto.getNombre();
             productoTabla[2] = producto.getDescripcion();
-            productoTabla[3] = producto.getPrecioPublico();
-            productoTabla[4] = producto.getIdProveedor();
-            productoTabla[5] = producto.getCantidadInventario();
-            productoTabla[6] = producto.getCantidadMinima();
-            productoTabla[7] = producto.getCantidadPedido();
+            productoTabla[3] = producto.getPrecioProveedor();
+            productoTabla[4] = producto.getPrecioPublico();
+            productoTabla[5] = producto.getIdProveedor();
+            productoTabla[6] = producto.getCantidadInventario();
+            productoTabla[7] = producto.getCantidadMinima();
+            productoTabla[8] = producto.getCantidadPedido();
             modelo.addRow(productoTabla);
             tblProductos.setModel(modelo);
         }else{
@@ -352,16 +356,17 @@ public final class FrmInventario extends javax.swing.JFrame {
     
     public void llenarTabla(ArrayList<Producto> lista){
         int i;
-        Object[] producto = new Object[8];
+        Object[] producto = new Object[9];
         for(i = 0; i < lista.size(); i++){
             producto[0] = lista.get(i).getId();
             producto[1] = lista.get(i).getNombre();
             producto[2] = lista.get(i).getDescripcion();
-            producto[3] = lista.get(i).getPrecioPublico();
-            producto[4] = lista.get(i).getIdProveedor();
-            producto[5] = lista.get(i).getCantidadInventario();
-            producto[6] = lista.get(i).getCantidadMinima();
-            producto[7] = lista.get(i).getCantidadPedido();
+            producto[3] = lista.get(i).getPrecioProveedor();
+            producto[4] = lista.get(i).getPrecioPublico();
+            producto[5] = lista.get(i).getIdProveedor();
+            producto[6] = lista.get(i).getCantidadInventario();
+            producto[7] = lista.get(i).getCantidadMinima();
+            producto[8] = lista.get(i).getCantidadPedido();
             modelo.addRow(producto);
         }
         tblProductos.setModel(modelo);

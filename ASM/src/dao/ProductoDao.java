@@ -34,7 +34,7 @@ public class ProductoDao {
         String comandoSQL;
 	try {
             conexion.setAutoCommit(false);
-            comandoSQL = "INSERT INTO inventario VALUES(?,?,?,?,?,?)";
+            comandoSQL = "INSERT INTO inventario VALUES(?,?,?,?,?,?,?)";
             comando = conexion.prepareStatement(comandoSQL);
             comando.setString(1, producto.getId());
             comando.setString(2,producto.getNombre());
@@ -42,6 +42,7 @@ public class ProductoDao {
             comando.setDouble(4, producto.getPrecioPublico());
             comando.setString(5, producto.getIdProveedor());
             comando.setInt(6, producto.getCantidadInventario()); 
+            comando.setDouble(7, producto.getPrecioProveedor());
             comando.executeUpdate();
             conexion.commit();
             comando.close();
@@ -73,6 +74,7 @@ public class ProductoDao {
                 producto = new Producto(resultado.getString("id_producto"),
                                      resultado.getString("nombre_producto"),
                                   resultado.getString("descripcion"),
+                                    resultado.getDouble("precio_proveedor"),
                                 resultado.getDouble("precio_publico"),
                                      resultado.getString("id_proveedor"),
                                     resultado.getInt("cantidad_en_inventario"),
@@ -96,7 +98,6 @@ public class ProductoDao {
         Connection conexion = administrador.dameConexion();
 	String comandoSQL = "SELECT inv.*,cont.cantidad_minima,cont.cantidad_pedido FROM inventario AS inv, control_cantidades AS "
                             + "cont WHERE inv.id_producto like '"+producto.getId()+"' AND cont.id_producto like '"+producto.getId()+"'";
-                        
 	PreparedStatement comando;
 	try {
             comando = conexion.prepareStatement(comandoSQL);
@@ -105,6 +106,7 @@ public class ProductoDao {
                 productoResultado = new Producto(resultado.getString("id_producto"),
                                             resultado.getString("nombre_producto"),
                                             resultado.getString("descripcion"),
+                                            resultado.getDouble("precio_proveedor"),
                                             resultado.getDouble("precio_publico"),
                                             resultado.getString("id_proveedor"),
                                             resultado.getInt("cantidad_en_inventario"),
@@ -127,6 +129,7 @@ public class ProductoDao {
         comandoSQL = "UPDATE inventario "+
                 "SET nombre_producto = '" + producto.getNombre()+"',"+
                 "descripcion = '" + producto.getDescripcion()+"',"+
+                "precio_proveedor = "+producto.getPrecioProveedor()+","+
                 "precio_publico = " + producto.getPrecioPublico()+","+
                 "id_proveedor = '" + producto.getIdProveedor()+"',"+
                 "cantidad_en_inventario = "+producto.getCantidadInventario()+" "+
@@ -165,6 +168,7 @@ public class ProductoDao {
                 productoResultado = new Producto(resultado.getString("id_producto"),
                                   resultado.getString("nombre_producto"),
                                resultado.getString("descripcion"),
+                               resultado.getDouble("precio_proveedor"),
                              resultado.getDouble("precio_publico"),
                                resultado.getString("id_proveedor"),
                          resultado.getInt("cantidad_en_inventario"),
@@ -180,17 +184,21 @@ public class ProductoDao {
         
         return productoResultado;
     }
+    
     public void eliminarProducto(Producto producto){
+        CantidadesDao cantidades = new CantidadesDao();
         Connection conexion = administrador.dameConexion();
 	String comandoSQL;
         comandoSQL = "DELETE FROM inventario WHERE id_producto like '"+producto.getId()+"';";
 	PreparedStatement comando;
 	try {
-		comando = conexion.prepareStatement(comandoSQL);
-                comando.executeUpdate();
-                comando.close();
+            comando = conexion.prepareStatement(comandoSQL);
+            comando.executeUpdate();
+            comando.close();
+            cantidades.Eliminar(producto, conexion);
+                
 	} catch (SQLException e) {
-		System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
 	}
 		
 	administrador.cerrarConexion();
@@ -210,6 +218,7 @@ public class ProductoDao {
                 producto = new Producto(resultado.getString("id_producto"),
                                   resultado.getString("nombre_producto"),
                                resultado.getString("descripcion"),
+                               resultado.getDouble("precio_proveedor"),
                              resultado.getDouble("precio_publico"),
                                 resultado.getString("id_proveedor"),
                                 resultado.getInt("cantidad_en_inventario"),
