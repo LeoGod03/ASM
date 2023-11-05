@@ -39,8 +39,11 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btVenta.setText("Venta");
+        btVenta.setBorder(null);
+        btVenta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        btInventario.setText("Inventario");
+        btInventario.setBorder(null);
+        btInventario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btInventario.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btInventarioMouseClicked(evt);
@@ -53,8 +56,12 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         });
 
         btProveedores.setText("Proveedores");
+        btProveedores.setBorder(null);
+        btProveedores.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         btCorteCaja.setText("CorteCaja");
+        btCorteCaja.setBorder(null);
+        btCorteCaja.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         lbBienvenido.setFont(new java.awt.Font("Times New Roman", 0, 36)); // NOI18N
         lbBienvenido.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

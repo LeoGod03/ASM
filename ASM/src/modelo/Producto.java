@@ -116,9 +116,13 @@ public final class Producto {
         return cantidadPedido;
     }
     
+    
     @Override
     public String toString() {
-        return "id = "+id+"   nombre = "+nombre+"   descripcion = "+descripcion+"    precio_publico = "+precioPublico+ "   id_proveedor =" +idProveedor;
+        String cadena = "id = "+id+" nombre = "+nombre+" descripcion = "+descripcion+" precio_publico = "+precioPublico
+                      + " id_proveedor =" +idProveedor +" cantidad_inventario: "+cantidadInventario+"Cantidad_minima: "+cantidadMinima
+                        +"Cantidad_pedido: " + cantidadPedido;
+        return cadena;
     }
 
     

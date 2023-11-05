@@ -54,6 +54,8 @@ public class FrmLogin extends javax.swing.JFrame {
 
         btLogin.setText("Iniciar sesion");
         btLogin.setToolTipText("");
+        btLogin.setBorder(null);
+        btLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btLogin.setName("btLogin"); // NOI18N
         btLogin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -89,7 +91,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addComponent(pwUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btLogin)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         lbLogo.getAccessibleContext().setAccessibleName("lbLogoTlapaleria");
@@ -105,13 +107,13 @@ public class FrmLogin extends javax.swing.JFrame {
         if(password.equals("hola"))
         {
             FrmMenuPrincipal menu = new FrmMenuPrincipal();
-            JOptionPane.showMessageDialog(null,"Pelas","siuuuu",JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(null,"¡Login exitoso!","Login",JOptionPane.INFORMATION_MESSAGE);
             menu.setVisible(true);
             this.setVisible(false);
             
         }
         else
-            JOptionPane.showMessageDialog(null, "contraseña no valida", "leo_miamor", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "contraseña no valida", "Error", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_btLoginMousePressed
 
     private void pwUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pwUsuarioKeyPressed
