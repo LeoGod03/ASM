@@ -38,9 +38,13 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btVenta.setText("Venta");
         btVenta.setBorder(null);
         btVenta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btVenta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btVentaMouseClicked(evt);
+            }
+        });
 
         btInventario.setBorder(null);
         btInventario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -143,6 +147,11 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     private void btInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInventarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btInventarioActionPerformed
+
+    private void btVentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btVentaMouseClicked
+       FrmPuntoVenta venta = new FrmPuntoVenta();
+       venta.setVisible(true);
+    }//GEN-LAST:event_btVentaMouseClicked
 
     /**
      * @param args the command line arguments

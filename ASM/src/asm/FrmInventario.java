@@ -18,21 +18,13 @@ import modelo.Producto;
 public final class FrmInventario extends javax.swing.JFrame {
 
     public ArrayList<Producto> lista;
-    private DefaultTableModel modelo = new DefaultTableModel();
+    private final DefaultTableModel modelo;
     ProductoDao productoDao ;
     public FrmInventario() {
         //setLocationRelativeTo(null);
         productoDao = new ProductoDao(); 
         initComponents();
-        modelo.addColumn("Id Producto");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Descripcion");
-        modelo.addColumn("Precio_proveedor");
-        modelo.addColumn("Precio publico");
-        modelo.addColumn("Id proveedor");
-        modelo.addColumn("Cantidad_en_inventario");
-        modelo.addColumn("cantidad_minima");
-        modelo.addColumn("cantidad_pedido");
+        modelo = (DefaultTableModel) tblProductos.getModel();
         lista = productoDao.pedirTabla();
         llenarTabla(lista);
         
@@ -68,7 +60,7 @@ public final class FrmInventario extends javax.swing.JFrame {
 
         lblInventario.setText("Inventario");
 
-        lblCantidadProductos.setText("CantidadProductos:");
+        lblCantidadProductos.setText("Productos:");
 
         btnAgregar.setText("Agregar");
         btnAgregar.setAutoscrolls(true);
@@ -112,13 +104,10 @@ public final class FrmInventario extends javax.swing.JFrame {
 
         tblProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "id_producto", "nombre_producto", "descrpicion", "precio_proveedor", "precio_publico", "id_proveedor", "cantidad_inventario", "cantidad_minima", "cantidad_pedido"
+                "Id_producto", "Nombre_producto", "Descrpicion", "Precio_proveedor", "Precio_publico", "Id_proveedor", "Cantidad_inventario", "Cantidad_minima", "Cantidad_pedido"
             }
         ) {
             Class[] types = new Class [] {
@@ -163,38 +152,39 @@ public final class FrmInventario extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addGap(28, 28, 28)
+                .addComponent(txtBuscarID, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(txtBuscarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 145, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lblBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel1)
-                        .addGap(28, 28, 28)
-                        .addComponent(txtBuscarID, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtBuscarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAgregar)
-                                .addGap(34, 34, 34)
-                                .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(33, 33, 33)
-                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblCantidadProductos)
-                                .addGap(63, 63, 63)))))
-                .addGap(0, 55, Short.MAX_VALUE))
+                        .addComponent(btnAgregar)
+                        .addGap(34, 34, 34)
+                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblCantidadProductos)
+                        .addGap(51, 51, 51))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,8 +199,8 @@ public final class FrmInventario extends javax.swing.JFrame {
                     .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCantidadProductos)
-                    .addComponent(lblInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCantidadProductos))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -230,7 +220,7 @@ public final class FrmInventario extends javax.swing.JFrame {
 
        Object[] productoObjeto = new Object[1];
        productoObjeto[0] = modelo.getValueAt(tblProductos.getSelectedRow(),0);
-       Producto producto = productoDao.buscarProducto(new Producto((String)productoObjeto[0],"","",0,0,"",0,0,0));
+       Producto producto = productoDao.buscarProducto(new Producto((String)productoObjeto[0]));
        int opcion = JOptionPane.showConfirmDialog(null,"¿Esta seguro de eliminar el producto: " + producto.getId()+"?","Confirmacion",JOptionPane.YES_NO_OPTION);
        if(opcion == 0)
        {
@@ -247,7 +237,7 @@ public final class FrmInventario extends javax.swing.JFrame {
 
        Object[] productoObjeto = new Object[1];
        productoObjeto[0] = modelo.getValueAt(tblProductos.getSelectedRow(),0);
-       Producto producto = productoDao.buscarProducto(new Producto((String)productoObjeto[0],"","",0,0,"",0,0,0));
+       Producto producto = productoDao.buscarProducto(new Producto((String)productoObjeto[0]));
        FrmActualizar_producto actualizar = new FrmActualizar_producto(producto,this);
        actualizar.setVisible(true);
     }//GEN-LAST:event_btnModificarMouseClicked
@@ -261,8 +251,8 @@ public final class FrmInventario extends javax.swing.JFrame {
         Object[] productoObjeto = new Object[9];
         if(!txtBuscarID.getText().equals("")){
             try{
-                int numeroID = Integer.parseInt(txtBuscarID.getText());
-               Producto producto = productoDao.buscarProducto(new Producto("Pd_"+numeroID,"","",0,0,"",0,0,0));
+               int numeroID = Integer.parseInt(txtBuscarID.getText());
+               Producto producto = productoDao.buscarProducto(new Producto("Pd_"+numeroID));
                 if(producto != null){
                     limpiarTabla();
                     productoObjeto[0] = producto.getId();

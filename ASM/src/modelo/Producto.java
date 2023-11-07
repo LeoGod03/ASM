@@ -24,13 +24,26 @@ public final class Producto {
                     int cantidadInventario, int cantidadMinima, int cantidadPedido){
         this.id = id;
         this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.setPrecioPublico(precioPublico);
-        this.setCantidadInventario(cantidadInventario);
-        this.setPrecioProveedor(precioProveedor);
-        this.idProveedor = idProveedor;
-        this.setCantidadMinima(cantidadMinima);
-        this.setCantidadPedido(cantidadPedido);
+        setDescripcion(descripcion);
+        setPrecioPublico(precioPublico);
+        setCantidadInventario(cantidadInventario);
+        setPrecioProveedor(precioProveedor);
+        setIdProveedor(idProveedor);
+        setCantidadMinima(cantidadMinima);
+        setCantidadPedido(cantidadPedido);
+    }
+    
+    public Producto (String id){
+        this.id  = id;
+        setNombre("");
+        setDescripcion("");
+        setPrecioPublico(0);
+        setCantidadInventario(0);
+        setPrecioProveedor(0);
+        setIdProveedor("");
+        setCantidadMinima(0);
+        setCantidadPedido(0);
+        
     }
 
    
