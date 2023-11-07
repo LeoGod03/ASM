@@ -5,6 +5,7 @@
 package asm;
 
 import dao.ProductoDao;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Producto;
@@ -40,10 +41,23 @@ public class FrmPuntoVenta extends javax.swing.JFrame {
         lblPrecioTotal = new javax.swing.JLabel();
         btnAceptar = new javax.swing.JButton();
         btnAgregar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
 
         lblIdProducto.setText("Id del producto:");
 
+        txtIdProducto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtIdProductoKeyPressed(evt);
+            }
+        });
+
         lblCantidad.setText("Cantidad:");
+
+        txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyPressed(evt);
+            }
+        });
 
         tblProductosVenta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -91,6 +105,8 @@ public class FrmPuntoVenta extends javax.swing.JFrame {
             }
         });
 
+        btnCancelar.setText("Cancelar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -111,10 +127,6 @@ public class FrmPuntoVenta extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                        .addComponent(btnAceptar)
-                        .addGap(69, 69, 69))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(54, 54, 54)
@@ -122,7 +134,13 @@ public class FrmPuntoVenta extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(lblPrecioTexto)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnCancelar)
+                            .addComponent(btnAceptar))
+                        .addGap(66, 66, 66))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,7 +162,9 @@ public class FrmPuntoVenta extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblPrecioTotal)
                         .addGap(40, 40, 40)
-                        .addComponent(btnAceptar)))
+                        .addComponent(btnAceptar)
+                        .addGap(30, 30, 30)
+                        .addComponent(btnCancelar)))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
@@ -189,14 +209,26 @@ public class FrmPuntoVenta extends javax.swing.JFrame {
             }catch(NumberFormatException nfe){
                 
             }
-        }
+        }else
+             JOptionPane.showMessageDialog(null,"Datos incompletos, favor de llenar bien los campos","Error al agregars", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_btnAgregarMouseClicked
 
     private void tblProductosVentaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tblProductosVentaPropertyChange
         sumaTabla();
     }//GEN-LAST:event_tblProductosVentaPropertyChange
+
+    private void txtIdProductoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdProductoKeyPressed
+       if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+           btnAgregarMouseClicked(null);
+    }//GEN-LAST:event_txtIdProductoKeyPressed
+
+    private void txtCantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+           btnAgregarMouseClicked(null);
+    }//GEN-LAST:event_txtCantidadKeyPressed
     
     private void sumaTabla(){
+        
         Producto iteracion;
         Boolean incoherencia = false;
         sumaTotal = 0;
@@ -205,11 +237,10 @@ public class FrmPuntoVenta extends javax.swing.JFrame {
             objeto[0] = modelo.getValueAt(i, 3);
             objeto[1] = modelo.getValueAt(i, 2);
             objeto[2] = modelo.getValueAt(i,0);
-            System.out.print(objeto[0]);
-            System.out.print(objeto[1]);
-            iteracion = productoDao.buscarProducto(new Producto("Pd_"+(String)objeto[2]));
+            
+            iteracion = productoDao.buscarProducto(new Producto((String)objeto[2]));
             sumaTotal += (Double) objeto[1] * (int) objeto[0];
-            if(iteracion.getCantidadInventario() < (int)objeto[0] && !incoherencia)
+           if(iteracion.getCantidadInventario() < (int)objeto[0] && !incoherencia)
                 incoherencia = true;
                 
         }
@@ -261,6 +292,7 @@ public class FrmPuntoVenta extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCantidad;
     private javax.swing.JLabel lblIdProducto;
