@@ -6,8 +6,6 @@ package asm;
 
 import dao.ProductoDao;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import modelo.Producto;
@@ -248,7 +246,8 @@ public class FrmAgregar_producto extends javax.swing.JFrame {
                JOptionPane.showMessageDialog(null,"No se pudo guardar el producto en la bases de datos","Error al insertar", JOptionPane.ERROR_MESSAGE);
             }
         
-        }
+        }else
+             JOptionPane.showMessageDialog(null,"Datos incompletos, favor de llenar bien los campos","Error a actualizar", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_btAgregarMouseClicked
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed

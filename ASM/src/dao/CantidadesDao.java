@@ -7,6 +7,7 @@ package dao;
 import modelo.Producto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,6 +54,27 @@ public class CantidadesDao {
 		
 	administrador.cerrarConexion();
     }
-    
+     public Producto buscarProducto(Producto producto){
+        Producto productoResultado = null;
+        Connection conexion = administrador.dameConexion();
+	String comandoSQL = "SELECT * FROM  control_cantidades WHERE id_producto like '"+producto.getId()+"'";
+	PreparedStatement comando;
+	try {
+            comando = conexion.prepareStatement(comandoSQL);
+            ResultSet resultado = comando.executeQuery();
+            if(resultado.next()){
+                productoResultado = new Producto(resultado.getString("id_producto"),"","",0,0,"",0,
+                                            resultado.getInt("cantidad_minima"),
+                                            resultado.getInt("cantidad_pedido"));
+            }
+            comando.close();
+	} catch (SQLException e) {
+		System.out.println(e.getMessage());
+	}
+		
+	administrador.cerrarConexion();
+        
+        return productoResultado;
+    }
     
 }

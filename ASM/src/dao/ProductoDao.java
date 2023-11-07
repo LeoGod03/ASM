@@ -22,13 +22,15 @@ import modelo.Producto;
 
 public class ProductoDao {
     private Administrador administrador;
+    CantidadesDao cantidades;
     
     public ProductoDao(){
         administrador = new Administrador();
+        cantidades = new CantidadesDao();
     }
     
     public void insertar (Producto producto) throws SQLException {
-        CantidadesDao cantidades = new CantidadesDao();
+        cantidades = new CantidadesDao();
 	Connection conexion = administrador.dameConexion();
 	PreparedStatement comando;
         String comandoSQL;
@@ -96,10 +98,10 @@ public class ProductoDao {
     public Producto buscarProducto(Producto producto){
         Producto productoResultado = null;
         Connection conexion = administrador.dameConexion();
-	String comandoSQL = "SELECT inv.*,cont.cantidad_minima,cont.cantidad_pedido FROM inventario AS inv, control_cantidades AS "
-                            + "cont WHERE inv.id_producto like '"+producto.getId()+"' AND cont.id_producto like '"+producto.getId()+"'";
+	String comandoSQL = "SELECT * FROM inventario WHERE id_producto like '"+producto.getId()+"'";
 	PreparedStatement comando;
 	try {
+            Producto productoCant = cantidades.buscarProducto(producto);
             comando = conexion.prepareStatement(comandoSQL);
             ResultSet resultado = comando.executeQuery();
             if(resultado.next()){
@@ -110,8 +112,8 @@ public class ProductoDao {
                                             resultado.getDouble("precio_publico"),
                                             resultado.getString("id_proveedor"),
                                             resultado.getInt("cantidad_en_inventario"),
-                                            resultado.getInt("cantidad_minima"),
-                                            resultado.getInt("cantidad_pedido"));
+                                            productoCant.getCantidadMinima(),
+                                            productoCant.getCantidadPedido());
             }
             comando.close();
 	} catch (SQLException e) {
