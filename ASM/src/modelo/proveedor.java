@@ -14,7 +14,10 @@ public class Proveedor {
     private String numero;
     private String correo;
     private String idDiaeReparto;
-
+    
+    public Proveedor(String id){
+        this.id=id;
+    }
     public Proveedor(String id, String nombre, String numero, String correo, String idDiaeReparto) {
         this.id = id;
         this.nombre = nombre;
