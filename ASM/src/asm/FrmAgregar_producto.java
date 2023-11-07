@@ -241,13 +241,13 @@ public class FrmAgregar_producto extends javax.swing.JFrame {
                inventario.lista = productoDao.pedirTabla();
                inventario.llenarTabla(inventario.lista);
             }catch(NumberFormatException e){
-               JOptionPane.showMessageDialog(null,"Algun dato es invalido revisa por favor","Error a actualizar", JOptionPane.ERROR_MESSAGE);
+               JOptionPane.showMessageDialog(null,"Algun dato es invalido revisa por favor","Error al instertar", JOptionPane.ERROR_MESSAGE);
             } catch (SQLException ex) {
                JOptionPane.showMessageDialog(null,"No se pudo guardar el producto en la bases de datos","Error al insertar", JOptionPane.ERROR_MESSAGE);
             }
         
         }else
-             JOptionPane.showMessageDialog(null,"Datos incompletos, favor de llenar bien los campos","Error a actualizar", JOptionPane.ERROR_MESSAGE);
+             JOptionPane.showMessageDialog(null,"Datos incompletos, favor de llenar bien los campos","Error al insertar", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_btAgregarMouseClicked
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
