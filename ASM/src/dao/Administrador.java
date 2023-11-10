@@ -31,7 +31,7 @@ public class Administrador {
 			Class.forName("org.postgresql.Driver");
 			conexion = DriverManager.getConnection(url,usuarioBD,contrasenaBD);
 		}catch(SQLException sql){
-                    System.out.println(sql.getMessage());
+                    System.out.println("el error esta en administrador");
                 }catch(Exception e) {
 			System.out.println(e.getMessage());
 		}

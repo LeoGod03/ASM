@@ -37,7 +37,10 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         lbCorteCaja = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Menú principal");
+        setResizable(false);
 
+        btVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/venta-1.png"))); // NOI18N
         btVenta.setBorder(null);
         btVenta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btVenta.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -46,6 +49,7 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btInventario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/inventario-1.png"))); // NOI18N
         btInventario.setBorder(null);
         btInventario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btInventario.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -59,13 +63,23 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
             }
         });
 
-        btProveedores.setText("Proveedores");
+        btProveedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/proveedores-1.png"))); // NOI18N
         btProveedores.setBorder(null);
         btProveedores.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btProveedores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btProveedoresMouseClicked(evt);
+            }
+        });
 
-        btCorteCaja.setText("CorteCaja");
+        btCorteCaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/corte de caja.png"))); // NOI18N
         btCorteCaja.setBorder(null);
         btCorteCaja.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCorteCaja.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btCorteCajaMouseClicked(evt);
+            }
+        });
 
         lbBienvenido.setFont(new java.awt.Font("Times New Roman", 0, 36)); // NOI18N
         lbBienvenido.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -95,14 +109,11 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addComponent(btVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbBienvenido, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(62, 62, 62)
-                        .addComponent(btProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(54, 54, 54)
-                        .addComponent(btCorteCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(btInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62)
+                .addComponent(btProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54)
+                .addComponent(btCorteCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
             .addGroup(layout.createSequentialGroup()
                 .addGap(64, 64, 64)
@@ -114,6 +125,10 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lbCorteCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(52, 52, 52))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbBienvenido, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(204, 204, 204))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,7 +156,7 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     private void btInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btInventarioMouseClicked
         FrmInventario inventario = new FrmInventario();
         inventario.setVisible(true);
-        setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btInventarioMouseClicked
 
     private void btInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInventarioActionPerformed
@@ -151,7 +166,21 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     private void btVentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btVentaMouseClicked
        FrmPuntoVenta venta = new FrmPuntoVenta();
        venta.setVisible(true);
+       this.dispose();
     }//GEN-LAST:event_btVentaMouseClicked
+
+    private void btProveedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btProveedoresMouseClicked
+        FrmProveedores proveedores = new FrmProveedores();
+        proveedores.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btProveedoresMouseClicked
+
+    private void btCorteCajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btCorteCajaMouseClicked
+        FrmCorteCaja corte = new FrmCorteCaja();
+        corte.setVisible(true);
+        this.dispose();
+        
+    }//GEN-LAST:event_btCorteCajaMouseClicked
 
     /**
      * @param args the command line arguments
