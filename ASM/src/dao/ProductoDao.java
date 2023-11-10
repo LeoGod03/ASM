@@ -14,14 +14,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import modelo.Producto;
 
 public class ProductoDao {
-    private Administrador administrador;
+    private final Administrador administrador;
     CantidadesDao cantidades;
     
     public ProductoDao(){
@@ -29,7 +26,7 @@ public class ProductoDao {
         cantidades = new CantidadesDao();
     }
     
-    public void insertar (Producto producto) throws SQLException {
+    public void insertar (Producto producto) {
         cantidades = new CantidadesDao();
 	Connection conexion = administrador.dameConexion();
 	PreparedStatement comando;
@@ -46,14 +43,14 @@ public class ProductoDao {
             comando.setInt(6, producto.getCantidadInventario()); 
             comando.setDouble(7, producto.getPrecioProveedor());
             comando.executeUpdate();
+            cantidades.InsertarProducto(producto, conexion);
             conexion.commit();
             comando.close();
-            cantidades.InsertarProducto(producto, conexion);
 	} catch (SQLException e) {
            try {
                 conexion.rollback();
             } catch (SQLException ex) {
-                Logger.getLogger(CantidadesDao.class.getName()).log(Level.SEVERE, null, ex);
+                
             }
             JOptionPane.showMessageDialog(null, "Error en el registro del producto", "Error",JOptionPane.ERROR_MESSAGE);
 	}
@@ -63,7 +60,7 @@ public class ProductoDao {
     }
     
     public ArrayList<Producto> pedirTabla(){
-        ArrayList<Producto> productos = new ArrayList<Producto>();
+        ArrayList<Producto> productos = new ArrayList<>();
         Producto producto;
         Connection conexion = administrador.dameConexion();
 	String comandoSQL = "SELECT * FROM inventario INNER JOIN  control_cantidades ON inventario.id_producto = control_cantidades.id_producto"
@@ -156,27 +153,18 @@ public class ProductoDao {
     public Producto buscarUltimoProducto(){
         Producto productoResultado = null;
         Connection conexion = administrador.dameConexion();
-	String comandoSQL = "SELECT inv.*, cont.cantidad_minima, cont.cantidad_pedido " +
-                            "FROM inventario AS inv " +
-                            "JOIN control_cantidades AS cont ON inv.id_producto = cont.id_producto " +
-                            "ORDER BY inv.id_producto DESC "+
+	String comandoSQL = "SELECT id_producto " +
+                            "FROM inventario " +
+                            "ORDER BY id_producto DESC "+
                             "LIMIT 1;";
                         
 	PreparedStatement comando;
 	try {
             comando = conexion.prepareStatement(comandoSQL);
             ResultSet resultado = comando.executeQuery();
-            if(resultado.next()){
-                productoResultado = new Producto(resultado.getString("id_producto"),
-                                  resultado.getString("nombre_producto"),
-                               resultado.getString("descripcion"),
-                               resultado.getDouble("precio_proveedor"),
-                             resultado.getDouble("precio_publico"),
-                               resultado.getString("id_proveedor"),
-                         resultado.getInt("cantidad_en_inventario"),
-                            resultado.getInt("cantidad_minima"),
-                            resultado.getInt("cantidad_pedido"));
-            }
+            if(resultado.next())
+                productoResultado = new Producto(resultado.getString("id_producto"));
+            
             comando.close();
 	} catch (SQLException e) {
 		System.out.println(e.getMessage());
@@ -188,7 +176,7 @@ public class ProductoDao {
     }
     
     public void eliminarProducto(Producto producto){
-        CantidadesDao cantidades = new CantidadesDao();
+        CantidadesDao cantidadesDao = new CantidadesDao();
         Connection conexion = administrador.dameConexion();
 	String comandoSQL;
         comandoSQL = "DELETE FROM inventario WHERE id_producto like '"+producto.getId()+"';";
@@ -197,7 +185,7 @@ public class ProductoDao {
             comando = conexion.prepareStatement(comandoSQL);
             comando.executeUpdate();
             comando.close();
-            cantidades.Eliminar(producto, conexion);
+            cantidadesDao.Eliminar(producto, conexion);
                 
 	} catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -207,7 +195,7 @@ public class ProductoDao {
     }
     
     public ArrayList<Producto> buscarPorNombre(String nombre){
-        ArrayList<Producto> productos = new ArrayList<Producto>();
+        ArrayList<Producto> productos = new ArrayList<>();
         Producto producto;
         Connection conexion = administrador.dameConexion();
 	String comandoSQL = "SELECT inv.*,cont.cantidad_minima,cont.cantidad_pedido FROM inventario AS inv, control_cantidades AS cont WHERE inv.nombre_producto like '%"+nombre+"%'"
@@ -236,6 +224,23 @@ public class ProductoDao {
 	administrador.cerrarConexion();
         
         return productos;
+    }
+    
+    public void actualizarCantidad(Producto producto, int cantidad){
+        Connection conexion = administrador.dameConexion();
+        String comandoSQL = "UPDATE inventario "
+                           + "SET cantidad_en_inventario = cantidad_en_inventario - " +cantidad+" "
+                           + "WHERE id_producto like '"+producto.getId()+"';";
+        PreparedStatement comando;
+        try{
+            comando = conexion.prepareStatement(comandoSQL);
+            comando.executeUpdate();
+            comando.close();
+            conexion.close();
+        }catch(SQLException e){
+            
+        }
+        administrador.cerrarConexion();
     }
     
 }

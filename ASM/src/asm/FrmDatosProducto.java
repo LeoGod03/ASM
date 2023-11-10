@@ -5,34 +5,49 @@
 package asm;
 
 import dao.ProductoDao;
+import dao.ProveedorDao;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import modelo.Producto;
+import modelo.Proveedor;
 
 /**
  *
  * @author leopa
  */
-public class FrmActualizar_producto extends javax.swing.JFrame {
+public class FrmDatosProducto extends javax.swing.JFrame {
 
-    private String id;
+    private final String id;
     FrmInventario inventario;
     private ProductoDao productoDao;
-    public FrmActualizar_producto(Producto producto, FrmInventario inventario) {
+    private String accion;
+    public FrmDatosProducto(Producto producto, FrmInventario inventario) {
         productoDao = new ProductoDao();
         initComponents();
-        int idProveedor = Integer.parseInt(producto.getIdProveedor().split("_")[1]);
-        id = producto.getId();
-        this.inventario = inventario;
+        int idProveedor;
+        if(producto != null){
+            id = producto.getId();
+            idProveedor = Integer.parseInt(producto.getIdProveedor().split("_")[1]);
+            txtNombre.setText(producto.getNombre());
+            txtaDescripcion.setText(producto.getDescripcion());
+            txtPrecioProveedor.setText(String.valueOf(producto.getPrecioProveedor()));
+            txtCantidadInventario.setText(String.valueOf(producto.getCantidadInventario()));
+            txtPrecio.setText(String.valueOf( producto.getPrecioPublico()));
+            txtProveedor.setText(String.valueOf(idProveedor));
+            txtCantidadMinima.setText(String.valueOf(producto.getCantidadMinima()));
+            txtCantidadPedido.setText(String.valueOf(producto.getCantidadPedido()));
+            btnAgregarActualizar.setText("Agregar");
+            accion = "actualizado";
+        }
+        else{
+            int ultimoRegistro = DevolverUltimoID();
+            id = "Pd_"+(ultimoRegistro+1);
+            accion = "agregado";
+            
+        }
         lblId.setText("Id producto: " + id);
-        txtNombre.setText(producto.getNombre());
-        txtaDescripcion.setText(producto.getDescripcion());
-        txtPrecioProveedor.setText(String.valueOf(producto.getPrecioProveedor()));
-        txtCantidadInventario.setText(String.valueOf(producto.getCantidadInventario()));
-        txtPrecio.setText(String.valueOf( producto.getPrecioPublico()));
-        txtProveedor.setText(String.valueOf(idProveedor));
-        txtCantidadMinima.setText(String.valueOf(producto.getCantidadMinima()));
-        txtCantidadPedido.setText(String.valueOf(producto.getCantidadPedido()));
+        this.inventario = inventario;
+        
     }
 
     /**
@@ -52,7 +67,7 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
         txtNombre = new javax.swing.JTextField();
         txtPrecio = new javax.swing.JTextField();
         txtProveedor = new javax.swing.JTextField();
-        btModificar = new javax.swing.JButton();
+        btnAgregarActualizar = new javax.swing.JButton();
         btCancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtaDescripcion = new javax.swing.JTextArea();
@@ -65,6 +80,7 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
         lblPrecioProveedor = new javax.swing.JLabel();
         txtPrecioProveedor = new javax.swing.JTextField();
 
+        setTitle("Actualizar producto");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -85,13 +101,13 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
         lblProveedor.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblProveedor.setText("Proveedor: Pr_");
 
-        btModificar.setText("Modificar");
-        btModificar.setAutoscrolls(true);
-        btModificar.setBorder(null);
-        btModificar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btModificar.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnAgregarActualizar.setText("Aceptar");
+        btnAgregarActualizar.setAutoscrolls(true);
+        btnAgregarActualizar.setBorder(null);
+        btnAgregarActualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAgregarActualizar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btModificarMouseClicked(evt);
+                btnAgregarActualizarMouseClicked(evt);
             }
         });
 
@@ -99,6 +115,11 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
         btCancelar.setAutoscrolls(true);
         btCancelar.setBorder(null);
         btCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btCancelarMouseClicked(evt);
+            }
+        });
 
         txtaDescripcion.setColumns(20);
         txtaDescripcion.setRows(5);
@@ -137,7 +158,7 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
                             .addComponent(lblPrecioPublico))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btModificar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAgregarActualizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btCancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,7 +198,7 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(118, 118, 118)
-                        .addComponent(btModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAgregarActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(58, 58, 58)
                         .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -211,12 +232,16 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btModificarMouseClicked
-       JTextField[] campos = {txtNombre,txtPrecio,txtCantidadInventario,txtProveedor,
+    private void btnAgregarActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarActualizarMouseClicked
+       
+        JTextField[] campos = {txtNombre,txtPrecio,txtCantidadInventario,txtProveedor,
                               txtCantidadMinima,txtCantidadPedido};
+       
+        
         Double precio,precioProveedor;
         int cantidadInventario;
         boolean formLleno = true;
+        ProveedorDao proveedorDao = new ProveedorDao();
         for(JTextField campo : campos){
             if(campo.getText().equals("")){
                 formLleno = false;
@@ -226,6 +251,8 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
         if(txtaDescripcion.getText().equals(""))
             formLleno = false;
         
+        
+        
        if(formLleno)
         {
          try
@@ -233,42 +260,60 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
             int idProveedor = Integer.parseInt(txtProveedor.getText());
             int cantidadMinima=Integer.parseInt(txtCantidadMinima.getText());
             int cantidadPedido=Integer.parseInt(txtCantidadPedido.getText());
+            cantidadInventario = Integer.parseInt(txtCantidadInventario.getText());
             precio = Double.valueOf(txtPrecio.getText());
             precioProveedor = Double.valueOf(txtPrecioProveedor.getText());
-            if(cantidadMinima > 0 && cantidadPedido >= 0)
-            {
-                
-                cantidadInventario = Integer.parseInt(txtCantidadInventario.getText());
-                Producto producto = new Producto(id,
-                                             txtNombre.getText(),
-                                             txtaDescripcion.getText(),
-                                             precioProveedor,
-                                             precio,
-                                             "Pr_"+idProveedor,
-                                              cantidadInventario,
-                                              cantidadMinima,
-                                              cantidadPedido);
-                JOptionPane.showMessageDialog(null,"¡Producto actualizado con exito!","Exito", JOptionPane.INFORMATION_MESSAGE);
-                setVisible(false);
-                productoDao.actualizarProducto(producto);
-                inventario.limpiarTabla();
-                inventario.lista = productoDao.pedirTabla();
-                inventario.llenarTabla(inventario.lista);
+            if(cantidadMinima > 0 && cantidadPedido > 0 && precio > 0 && precioProveedor > 0 && cantidadInventario > 0){
+                if(proveedorDao.buscarProveedor(new Proveedor("Pr_"+idProveedor)) != null){
+                    Producto producto = new Producto(id,txtNombre.getText(),txtaDescripcion.getText(),precioProveedor,precio,"Pr_"+idProveedor,
+                                                        cantidadInventario,cantidadMinima,cantidadPedido);
+                                                           
+                    productoDao.insertar(producto);
+                    formWindowClosed(null);
+                    JOptionPane.showMessageDialog(null,"¡Producto "+accion+" con exito!","Exito", JOptionPane.INFORMATION_MESSAGE);
+                    
+                    
+                }else{
+                   JOptionPane.showMessageDialog(null,"""
+                                                      El proveedor no se encuentra registrado, le
+                                                      recomendamos que primero agregue al proveedor y
+                                                      después el producto.""","Error", JOptionPane.ERROR_MESSAGE); 
+                }
+                    
           }else
-                JOptionPane.showMessageDialog(null,"Ingrese valores apropiados en las cantidades minimas, de pedido y precio","Error a actualizar", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Ingrese valores apropiados en las cantidades minimas, de pedido y a los precios","Error a actualizar", JOptionPane.ERROR_MESSAGE);
           
        
         }catch(NumberFormatException nfe){
-             JOptionPane.showMessageDialog(null,"Algun dato es invalido revisa por favor","Error a actualizar", JOptionPane.ERROR_MESSAGE);
+             JOptionPane.showMessageDialog(null,"Algun dato es invalido revisa por favor","Datos invalido", JOptionPane.ERROR_MESSAGE);
          }
        }else
-           JOptionPane.showMessageDialog(null,"Datos incompletos, favor de llenar bien los campos","Error a actualizar", JOptionPane.ERROR_MESSAGE);
-    }//GEN-LAST:event_btModificarMouseClicked
+           JOptionPane.showMessageDialog(null,"Datos incompletos, favor de llenar bien los campos","Incompleto", JOptionPane.ERROR_MESSAGE);
+    }//GEN-LAST:event_btnAgregarActualizarMouseClicked
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        inventario.limpiarTabla();
         inventario.lista = productoDao.pedirTabla();
         inventario.llenarTabla(inventario.lista);
+        this.dispose();
     }//GEN-LAST:event_formWindowClosed
+
+    private void btCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btCancelarMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_btCancelarMouseClicked
+    
+    private int DevolverUltimoID(){
+        int id = 0;
+        String[] partesId;
+        Producto producto = productoDao.buscarUltimoProducto();
+        System.out.println(producto);
+        if(producto != null){
+            partesId = producto.getId().split("_");
+            id = Integer.parseInt(partesId[1]);
+            System.out.println(id);
+        }
+        return id;
+    }
 
     /**
      * @param args the command line arguments
@@ -287,27 +332,30 @@ public class FrmActualizar_producto extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmActualizar_producto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmDatosProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmActualizar_producto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmDatosProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmActualizar_producto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmDatosProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmActualizar_producto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmDatosProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmActualizar_producto(new Producto("","","",0,0,"",0, 0, 0),null).setVisible(true);
+                new FrmDatosProducto(new Producto(""),null).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancelar;
-    private javax.swing.JButton btModificar;
+    private javax.swing.JButton btnAgregarActualizar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCantidadInventario;
     private javax.swing.JLabel lblCantidadMinima;

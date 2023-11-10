@@ -9,11 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 public class CantidadesDao {
-    private Administrador administrador;
+    private final Administrador administrador;
     public CantidadesDao(){
         administrador = new Administrador();
     }
@@ -22,21 +20,15 @@ public class CantidadesDao {
         PreparedStatement comando;
         String comandoSQL;
 	try {
-            conexion.setAutoCommit(false);
             comandoSQL = "INSERT INTO control_cantidades VALUES(?,?,?)";
             comando = conexion.prepareStatement(comandoSQL);
             comando.setString(1,producto.getId());
             comando.setInt(2, producto.getCantidadMinima());
             comando.setInt(3, producto.getCantidadPedido());
             comando.executeUpdate();
-            conexion.commit();
             comando.close();
 	} catch (SQLException e) {
-            try {
-                conexion.rollback();
-            } catch (SQLException ex) {
-                Logger.getLogger(CantidadesDao.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            
             JOptionPane.showMessageDialog(null, "Error en el registro del producto", "Error",JOptionPane.ERROR_MESSAGE);
 	}
     }
@@ -52,9 +44,8 @@ public class CantidadesDao {
 		System.out.println(e.getMessage());
 	}
 		
-	administrador.cerrarConexion();
     }
-     public Producto buscarProducto(Producto producto){
+    public Producto buscarProducto(Producto producto){
         Producto productoResultado = null;
         Connection conexion = administrador.dameConexion();
 	String comandoSQL = "SELECT * FROM  control_cantidades WHERE id_producto like '"+producto.getId()+"'";

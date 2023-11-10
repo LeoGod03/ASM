@@ -8,7 +8,6 @@ import dao.ProductoDao;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import modelo.Producto;
 
 /**
@@ -53,16 +52,18 @@ public final class FrmInventario extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtBuscarNombre = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnMostrar = new javax.swing.JButton();
+        btnMenu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Inventario");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         lblInventario.setText("Inventario");
 
         lblCantidadProductos.setText("Productos:");
 
-        btnAgregar.setText("Agregar");
+        btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/agregar.png"))); // NOI18N
         btnAgregar.setAutoscrolls(true);
         btnAgregar.setBorder(null);
         btnAgregar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -92,7 +93,7 @@ public final class FrmInventario extends javax.swing.JFrame {
             }
         });
 
-        btnEliminar.setText("Eliminar");
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/cancelar.png"))); // NOI18N
         btnEliminar.setAutoscrolls(true);
         btnEliminar.setBorder(null);
         btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -137,13 +138,22 @@ public final class FrmInventario extends javax.swing.JFrame {
 
         txtBuscarNombre.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jButton1.setText("Mostrar inventario");
-        jButton1.setAutoscrolls(true);
-        jButton1.setBorder(null);
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnMostrar.setText("Mostrar inventario");
+        btnMostrar.setAutoscrolls(true);
+        btnMostrar.setBorder(null);
+        btnMostrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMostrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                btnMostrarMouseClicked(evt);
+            }
+        });
+
+        btnMenu.setText("Menú principal");
+        btnMenu.setBorder(null);
+        btnMenu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMenuMouseClicked(evt);
             }
         });
 
@@ -172,13 +182,15 @@ public final class FrmInventario extends javax.swing.JFrame {
                         .addComponent(jScrollPane1)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAgregar)
-                        .addGap(34, 34, 34)
+                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
                         .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(btnMostrar)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
+                        .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -204,12 +216,12 @@ public final class FrmInventario extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14))
         );
 
@@ -238,13 +250,14 @@ public final class FrmInventario extends javax.swing.JFrame {
        Object[] productoObjeto = new Object[1];
        productoObjeto[0] = modelo.getValueAt(tblProductos.getSelectedRow(),0);
        Producto producto = productoDao.buscarProducto(new Producto((String)productoObjeto[0]));
-       FrmActualizar_producto actualizar = new FrmActualizar_producto(producto,this);
+       FrmDatosProducto actualizar = new FrmDatosProducto(producto,this);
        actualizar.setVisible(true);
     }//GEN-LAST:event_btnModificarMouseClicked
 
     private void btnAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarMouseClicked
-        FrmAgregar_producto agregar = new FrmAgregar_producto(this);
+        FrmDatosProducto agregar = new FrmDatosProducto(null,this);
         agregar.setVisible(true);
+        
     }//GEN-LAST:event_btnAgregarMouseClicked
 
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
@@ -277,22 +290,30 @@ public final class FrmInventario extends javax.swing.JFrame {
             
         }else if(!txtBuscarNombre.getText().equals("")){
             ArrayList listaTemp = productoDao.buscarPorNombre(txtBuscarNombre.getText());
+            limpiarTabla();
+            llenarTabla(listaTemp);
             if(!listaTemp.isEmpty())
-            {
-                limpiarTabla();
-                llenarTabla(listaTemp);
-            }
+                JOptionPane.showMessageDialog(null,"Producto(s) no encontrado","busqueda vacia", JOptionPane.ERROR_MESSAGE);
+                
+           
+                 
         }
         txtBuscarID.setText("");
         txtBuscarNombre.setText("");
 
     }//GEN-LAST:event_btnBuscarMouseClicked
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+    private void btnMostrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarMouseClicked
         limpiarTabla();
         lista = productoDao.pedirTabla();
         llenarTabla(lista);
-    }//GEN-LAST:event_jButton1MouseClicked
+    }//GEN-LAST:event_btnMostrarMouseClicked
+
+    private void btnMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuMouseClicked
+        FrmMenuPrincipal menu =  new FrmMenuPrincipal();
+        menu.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnMenuMouseClicked
 
     /**
      * @param args the command line arguments
@@ -385,8 +406,9 @@ public final class FrmInventario extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnMenu;
     private javax.swing.JButton btnModificar;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnMostrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
