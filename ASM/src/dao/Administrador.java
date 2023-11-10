@@ -9,10 +9,10 @@ package dao;
  *
  * @author leopa
  */
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
 public class Administrador {
     	private Connection conexion;
 	private String url;
@@ -21,8 +21,8 @@ public class Administrador {
 	
 	public Administrador() {
 		url = "jdbc:postgresql://127.0.0.1:5432/AMS";
-		usuarioBD = "TlapaAdmin";
-		contrasenaBD = "Tlapa";
+		usuarioBD = "postgres";
+		contrasenaBD = "p057gr35";
 	}
 	
 	public  Connection dameConexion() {
@@ -31,9 +31,9 @@ public class Administrador {
 			Class.forName("org.postgresql.Driver");
 			conexion = DriverManager.getConnection(url,usuarioBD,contrasenaBD);
 		}catch(SQLException sql){
-                    System.out.println(sql.getMessage());
+                    System.out.println("es sql");
                 }catch(Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("driver");
 		}
 		return conexion;
 	}

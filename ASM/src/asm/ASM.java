@@ -4,6 +4,7 @@
  */
 package asm;
 
+import dao.Administrador;
 import dao.ProductoDao;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -25,6 +26,7 @@ public class ASM {
         ProductoDao productoDao = new ProductoDao();
         FrmLogin login = new FrmLogin();
         login.setVisible(true);
+      
         
     }
     
