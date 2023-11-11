@@ -3,23 +3,28 @@ package modelo;
 
 import java.util.Date;
 
+
 public final class Venta {
+    // atributos de la clase
     private String id;
-    private java.sql.Date fecha;
+    private Date fecha;
     private double totalVenta;
     
-    
+    // constructor para las busquedas y eliminaciones
     public Venta(String id){
-        this.id = id;
+        setId(id);
+        setFecha(null);
+        setTotalVenta(0);
+        
     }
-    
-    public Venta(String id, java.sql.Date fecha, double totalVenta){
-        this.id = id;
-        this.fecha = fecha;
-        setTotalVenta(totalVenta);
+    // este constructor es especial para los registros en la base de datos
+    public Venta(String id, Date fecha, double totalVenta){
+       setId(id);
+       setFecha(fecha);
+       setTotalVenta(totalVenta);
     }
 
-   
+   // metodos get y set de la clase
     public String getId() {
         return id;
     }
@@ -29,12 +34,12 @@ public final class Venta {
     }
 
     
-    public java.sql.Date getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
     
-    public void setFecha(java.sql.Date fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
@@ -43,7 +48,7 @@ public final class Venta {
         return totalVenta;
     }
 
-    
+    // metodo set especial para la venta por si el sistema falla, no sea numero negativo
     public void setTotalVenta(double totalVenta) {
         if(totalVenta > 0)
             this.totalVenta = totalVenta;

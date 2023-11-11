@@ -1,14 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package modelo;
 
-import javax.swing.JOptionPane;
-import java.util.Scanner;
+
 
 
 public final class Producto {
+    // atributos de la clase producto
     private String id;
     private String nombre;
     private String descripcion;
@@ -19,7 +16,7 @@ public final class Producto {
     private int cantidadMinima;
     private int cantidadPedido;
     
-    
+    // este constructor es con todos los atributos como parametro para hacer las insercciones y modificaciones en las tablas
     public Producto(String id,String nombre,String descripcion,double precioProveedor, double precioPublico,String idProveedor,
                     int cantidadInventario, int cantidadMinima, int cantidadPedido){
         this.id = id;
@@ -32,7 +29,7 @@ public final class Producto {
         setCantidadMinima(cantidadMinima);
         setCantidadPedido(cantidadPedido);
     }
-    
+    // este constructor solo pide el ID para hacer busquedas o eliminaciones
     public Producto (String id){
         this.id  = id;
         setNombre("");
@@ -47,14 +44,10 @@ public final class Producto {
     }
 
    
-   
-
-    public void setId(int id){
-        
-        if(id > 0)
-            this.id = "Pd_"+id;   
-        else
-            System.out.println("Valor del ID invalido");
+   // los metodos get y set de los atributos
+    
+    public void setId(String id){
+        this.id = id;
     }
 
     public void setNombre(String nombre) {
@@ -68,22 +61,22 @@ public final class Producto {
     public void setIdProveedor(String idProveedor) {
         this.idProveedor = idProveedor;
     }
-    
+    // metodos set donde abrá numeros en si
     public void setCantidadInventario(int cantidadInventario) {
-        if(cantidadInventario > 0)
+        if(cantidadInventario > 0) // se cuida que no haya negativos por si el sistema llega a fallar
             this.cantidadInventario = cantidadInventario;
         else 
             this.cantidadInventario = 1;
     }
-    
+    // este metodo tendrá numeros y se replica lo de el set anterior
      public void setCantidadPedido(int cantidadPedido) {
          if(cantidadPedido > 0)
              this.cantidadPedido = cantidadPedido;
          else
              this.cantidadPedido = 1;
     }
-     
-     public int setCantidadMinima(int cantidadMinima) {
+     // este metodo tendrá numeros y se replica lo de el set anterior
+    public int setCantidadMinima(int cantidadMinima) {
          
         if(cantidadMinima > 0)
             this.cantidadMinima = cantidadMinima;
@@ -92,14 +85,14 @@ public final class Producto {
         return cantidadMinima;
     }
 
-    
+    // este metodo tendrá numeros y se replica lo de el set anterior
     public void setPrecioPublico(double precioPublico){
         if(precioPublico > 0)
             this.precioPublico = precioPublico; 
         else
             this.precioPublico = 1;
     }
-    
+    // este metodo tendrá numeros y se replica lo de el set anterior
     public void setPrecioProveedor(double precioProveedor){
         if(precioProveedor > 0)
             this.precioProveedor = precioProveedor;
@@ -142,7 +135,7 @@ public final class Producto {
      public String getId() {
         return id;
     }
-
+     // metodo string para las pruebas en consola
     @Override
     public String toString() {
         String cadena = "id = "+id+" nombre = "+nombre+" descripcion = "+descripcion+" precio_proveedor = "+precioProveedor +" precio_publico = "+precioPublico

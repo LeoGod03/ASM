@@ -38,7 +38,7 @@
                       <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="btnCorte" min="-2" pref="86" max="-2" attributes="0"/>
+                              <Component id="btnCorte" min="-2" pref="75" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                               <Component id="btnMenu" min="-2" pref="99" max="-2" attributes="0"/>
                           </Group>
@@ -48,7 +48,7 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="fchIni" min="-2" pref="190" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
-                                          <Component id="btnCalcular" min="-2" pref="72" max="-2" attributes="0"/>
+                                          <Component id="btnCalcular" min="-2" pref="75" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
@@ -83,7 +83,7 @@
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="btnCalcular" max="32767" attributes="0"/>
+                  <Component id="btnCalcular" min="-2" pref="25" max="-2" attributes="0"/>
                   <Component id="fchFinal" max="32767" attributes="0"/>
                   <Component id="fchIni" max="32767" attributes="0"/>
               </Group>
@@ -93,10 +93,10 @@
               <Component id="jScrollPane1" min="-2" pref="295" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnCorte" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                  <Component id="btnCorte" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                   <Component id="btnMenu" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="16" max="32767" attributes="0"/>
+              <EmptySpace pref="13" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -183,7 +183,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnCalcular">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Calcular"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/imagenes/buscar.png"/>
+        </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="null"/>
         </Property>
@@ -197,7 +199,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnCorte">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Calcular corte"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/imagenes/palomita.png"/>
+        </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="null"/>
         </Property>

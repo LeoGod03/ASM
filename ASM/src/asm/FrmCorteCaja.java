@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package asm;
 
-
+// importamos las librerias necesarias
 import dao.VentaDao;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,21 +12,24 @@ import modelo.Venta;
 
 
 public final class FrmCorteCaja extends javax.swing.JFrame {
-
+    // atributos de la clase
     private final DefaultTableModel modelo;
     private ArrayList<Venta> lista;
     private VentaDao ventaDao;
-    public FrmCorteCaja() {
-        initComponents();
+    public FrmCorteCaja() { // constructor del form
+        initComponents(); // se inicializan los conponentes
+        
+        // se les da formarto a la fechas
         fchIni.setDateFormatString("yyyy-MM-dd");
         fchFinal.setDateFormatString("yyyy-MM-dd");
+        // se inicializan atributos y se asigna la fecha de hoy a el controlador de fechas inicial
         ventaDao = new VentaDao();
-        java.util.Date fecha = new java.util.Date(new java.util.Date().getTime());
+        Date fecha = new Date(new Date().getTime());
         System.out.println(fecha);
         modelo = (DefaultTableModel) tblVentas.getModel();
         fchIni.setDate(fecha);
-        lista = ventaDao.corteCajaDia(fecha);
-        llenarTabla();
+        lista = ventaDao.corteCajaDia(fecha); // se obttienen las ventas del día actuak
+        llenarTabla(); // se lleba la tabla con dichos registros
     }
 
    
@@ -101,7 +101,7 @@ public final class FrmCorteCaja extends javax.swing.JFrame {
 
         lblVentas.setText("Numero de ventas:");
 
-        btnCalcular.setText("Calcular");
+        btnCalcular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/buscar.png"))); // NOI18N
         btnCalcular.setBorder(null);
         btnCalcular.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCalcular.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -110,7 +110,7 @@ public final class FrmCorteCaja extends javax.swing.JFrame {
             }
         });
 
-        btnCorte.setText("Calcular corte");
+        btnCorte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/palomita.png"))); // NOI18N
         btnCorte.setBorder(null);
         btnCorte.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCorte.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -141,7 +141,7 @@ public final class FrmCorteCaja extends javax.swing.JFrame {
                         .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnCorte, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnCorte, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(29, 29, 29)
                                 .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -150,7 +150,7 @@ public final class FrmCorteCaja extends javax.swing.JFrame {
                                         .addGroup(layout.createSequentialGroup()
                                             .addComponent(fchIni, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGap(55, 55, 55)
-                                            .addComponent(btnCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                             .addComponent(rbtnDia)
@@ -173,7 +173,7 @@ public final class FrmCorteCaja extends javax.swing.JFrame {
                     .addComponent(rbtnIntervalo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnCalcular, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fchFinal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(fchIni, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -182,55 +182,61 @@ public final class FrmCorteCaja extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCorte, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCorte, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    // metodo para asignar valores cuando el usuario escoge la opción de intervalo
     private void rbtnIntervaloMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbtnIntervaloMouseClicked
-        rbtnDia.setSelected(!rbtnIntervalo.isSelected());
-        fchFinal.setEnabled(rbtnIntervalo.isSelected());
+        rbtnDia.setSelected(!rbtnIntervalo.isSelected()); 
+        fchFinal.setEnabled(rbtnIntervalo.isSelected()); // el segundo controlador de calendario se activa
     }//GEN-LAST:event_rbtnIntervaloMouseClicked
-
+    // metodo para asignar valores al boton de por día
     private void rbtnDiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbtnDiaMouseClicked
         rbtnIntervalo.setSelected(!rbtnDia.isSelected());
-        fchFinal.setEnabled(!rbtnDia.isSelected());
+        fchFinal.setEnabled(!rbtnDia.isSelected()); // se inhabilita el segunfo controlador de calendario
     }//GEN-LAST:event_rbtnDiaMouseClicked
-
+    // metodo cuando el ususario le da calcular las ventas en las fechas selecionadas
     private void btnCalcularMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCalcularMouseClicked
         limpiarTabla();
+        // verifica cual fue la opción y manda a llamar a venta dao dependiendo de la selección
         if(rbtnDia.isSelected())
             lista = ventaDao.corteCajaDia(fchIni.getDate());
         else
             lista = ventaDao.corteCajaIntervalo(fchIni.getDate(), fchFinal.getDate());
         
-        llenarTabla();
+        llenarTabla(); // llena la tabal con los registros obtenidos
     }//GEN-LAST:event_btnCalcularMouseClicked
-
+    // metodo para calcular el corte con los registros dados
     private void btnCorteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCorteMouseClicked
-        String mensaje = "Las ventas de "+fchIni.getDate();
-        if(rbtnIntervalo.isSelected())
-            mensaje += " - " + fchFinal.getDate();
-        double sumaTotal = 0;
-        int i;
-        for(i = 0; i < tblVentas.getRowCount(); i++){
-            sumaTotal += (Double) tblVentas.getValueAt(i, 2);
-            ventaDao.eliminarVenta(new Venta((String) tblVentas.getValueAt(i,0)));
+        if(tblVentas.getRowCount() > 0){ // verificamos que si haya ventas existentes
+            String mensaje = "Las ventas de "+fchIni.getDate();
+            if(rbtnIntervalo.isSelected())
+                mensaje += " - " + fchFinal.getDate();
+            double sumaTotal = 0;
+            int i;
+            // recorremos la tabla y vamos almacenando los montos y eliminando las ventas de la tabla de datos
+            for(i = 0; i < tblVentas.getRowCount(); i++){
+                sumaTotal += (Double) tblVentas.getValueAt(i, 2);
+                ventaDao.eliminarVenta(new Venta((String) tblVentas.getValueAt(i,0)));
+            }
+            mensaje += "\nfueron: "+i +" y la cantidad de dinero\ngenerado fue: "+sumaTotal;
+            limpiarTabla();
+            // se muestra un mensaje con el monto almacenado
+            JOptionPane.showMessageDialog(null,mensaje,"Corte", JOptionPane.INFORMATION_MESSAGE);
         }
-        mensaje += "\nfueron: "+i +" y la cantidad de dinero\ngenerado fue: "+sumaTotal;
-        limpiarTabla();
-        JOptionPane.showMessageDialog(null,mensaje,"Corte", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnCorteMouseClicked
-
+    // metodo para crear el menú principal al darle al boton de menu principal
     private void btnMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuMouseClicked
-       FrmMenuPrincipal menu =  new FrmMenuPrincipal();
+       // se crea el menu y se autodestruye el formulario
+        FrmMenuPrincipal menu =  new FrmMenuPrincipal();
        menu.setVisible(true);
        this.dispose();
     }//GEN-LAST:event_btnMenuMouseClicked
-    
+    // metodo para eliminar toda la tabla del form
     void limpiarTabla(){
         for(int i = 0; i < tblVentas.getRowCount();i++)
         {
@@ -238,9 +244,11 @@ public final class FrmCorteCaja extends javax.swing.JFrame {
             i--;
         }
     } 
-   public void llenarTabla(){
+    // metodo para llenar la tabla con los registros de la lista
+    public void llenarTabla(){
         int i;
         Object[] venta = new Object[3];
+        // recorremos la lista y agregamos las filas a la tabla
         for(i = 0; i < lista.size(); i++){
             venta[0] = lista.get(i).getId();
             venta[1] = lista.get(i).getFecha();

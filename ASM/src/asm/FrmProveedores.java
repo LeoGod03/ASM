@@ -1,5 +1,5 @@
 package asm;
-
+// importamos las librerias necesarias
 import dao.ProveedorDao;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -9,20 +9,21 @@ import modelo.Proveedor;
 
 
 public final class FrmProveedores extends javax.swing.JFrame {
-
+    // atributos del form
     public ArrayList<Proveedor> lista;
     private final DefaultTableModel modelo;
     ProveedorDao proveedorDao;
+    // constructor
     public FrmProveedores() {
+        // se inicializan los componentes y se obtienen los registros de la base de datos
         initComponents();
         proveedorDao = new ProveedorDao();
         modelo = (DefaultTableModel) tblProveedores.getModel();
         lista = proveedorDao.pedirTabla();
-        llenarTabla(lista);
+        llenarTabla(lista); // se llena la tabla
         
         
     }
-    
    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -53,7 +54,7 @@ public final class FrmProveedores extends javax.swing.JFrame {
 
         lblNombre.setText("por nombre");
 
-        btnBuscar.setText("Buscar");
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/buscar.png"))); // NOI18N
         btnBuscar.setAutoscrolls(true);
         btnBuscar.setBorder(null);
         btnBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -91,7 +92,7 @@ public final class FrmProveedores extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblProveedores);
 
-        btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/agregar.png"))); // NOI18N
+        btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/+.png"))); // NOI18N
         btnAgregar.setAutoscrolls(true);
         btnAgregar.setBorder(null);
         btnAgregar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -113,7 +114,7 @@ public final class FrmProveedores extends javax.swing.JFrame {
             }
         });
 
-        btnEliminar.setText("Eliminar");
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/eliminar.png"))); // NOI18N
         btnEliminar.setAutoscrolls(true);
         btnEliminar.setBorder(null);
         btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -124,7 +125,7 @@ public final class FrmProveedores extends javax.swing.JFrame {
             }
         });
 
-        btnMostrarLista.setText("Mostrar lista completa");
+        btnMostrarLista.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/mostrar.png"))); // NOI18N
         btnMostrarLista.setAutoscrolls(true);
         btnMostrarLista.setBorder(null);
         btnMostrarLista.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -167,16 +168,16 @@ public final class FrmProveedores extends javax.swing.JFrame {
                         .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblProveedores)
-                            .addComponent(btnBuscar)))
+                            .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
                         .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(37, 37, 37)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
-                        .addComponent(btnMostrarLista, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnMostrarLista, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -194,7 +195,7 @@ public final class FrmProveedores extends javax.swing.JFrame {
                     .addComponent(txtBuscarID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblNombre)
                     .addComponent(txtBuscarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar))
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblLista)
@@ -202,58 +203,64 @@ public final class FrmProveedores extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnMostrarLista, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnMostrarLista, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    // metodo al hacer clic en el botón eliminar
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
-        if(tblProveedores.getSelectedRow() != -1){
+        if(tblProveedores.getSelectedRow() != -1){ // verificamos que haya seleccionado un proveeedor
             Object[] proveedorObjeto = new Object[1];
             proveedorObjeto[0] = modelo.getValueAt(tblProveedores.getSelectedRow(),0);
-            Proveedor proveedor = proveedorDao.buscarProveedor(new Proveedor((String)proveedorObjeto[0]));
+            Proveedor proveedor = proveedorDao.buscarProveedor(new Proveedor((String)proveedorObjeto[0])); // buscamos al proveedor en la base de datos
+            // preguntamos si esta seguro de eliminar al proveedor
             int opcion = JOptionPane.showConfirmDialog(null,"¿Esta seguro de eliminar el proveedor: " + proveedor.getId()+"?","Confirmacion",JOptionPane.YES_NO_OPTION);
+            // si la opcion es afirmativa se elimina de la base y se muestra un mensaje de eliminado con exito
             if(opcion == 0){
                  proveedorDao.eliminarProveedor(proveedor);
                 modelo.removeRow(tblProveedores.getSelectedRow()); 
-                JOptionPane.showMessageDialog(null,"Proveedor Eliminado con exito","Exito", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Proveedor eliminado con exito","Exito", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnEliminarMouseClicked
-
+    // metodo de mostrar inventario, pide los registros de toda la tabla y la llena
     private void btnMostrarListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMostrarListaMouseClicked
         limpiarTabla();
         lista = proveedorDao.pedirTabla();
         llenarTabla(lista);
     }//GEN-LAST:event_btnMostrarListaMouseClicked
-
+    // metodo que crea una ventana para poder agregar un nuevo proveedor
     private void btnAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarMouseClicked
-        FrmDatosProveedor agregar = new FrmDatosProveedor(null,this);
+        FrmDatosProveedor agregar = new FrmDatosProveedor(null,this); // se pasa nulo porque será nuevo proveedor y la referencia a la ventana actual
         agregar.setVisible(true);
     }//GEN-LAST:event_btnAgregarMouseClicked
-
+    
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
-       Object[] proveedorObjeto = new Object[1];
-       proveedorObjeto[0] = modelo.getValueAt(tblProveedores.getSelectedRow(),0);
-       Proveedor proveedor = proveedorDao.buscarProveedor(new Proveedor((String)proveedorObjeto[0]));
-       FrmDatosProveedor actualizar = new FrmDatosProveedor(proveedor,this);
-       actualizar.setVisible(true);
+       if(tblProveedores.getSelectedRow() != -1){ // verificamos que se haya seleccionado un proveedor a modificar
+            Object[] proveedorObjeto = new Object[1];
+            proveedorObjeto[0] = modelo.getValueAt(tblProveedores.getSelectedRow(),0);
+            Proveedor proveedor = proveedorDao.buscarProveedor(new Proveedor((String)proveedorObjeto[0])); // buscamos al proveedor
+            // creamos una ventana con el proveedor seleccionado para mostrar la informacion dada
+            FrmDatosProveedor actualizar = new FrmDatosProveedor(proveedor,this);
+            actualizar.setVisible(true);
+       }
     }//GEN-LAST:event_btnModificarMouseClicked
-
+    // metodo que hace la busqueda
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
          Object[] proveedorObjeto = new Object[5];
-        if(!txtBuscarID.getText().equals("")){
+        if(!txtBuscarID.getText().equals("")){ // si el id no esta vacio la busqueda será por id directamente
             try{
                int numeroID = Integer.parseInt(txtBuscarID.getText());
-               Proveedor proveedor = proveedorDao.buscarProveedor(new Proveedor("Pr_"+numeroID));
-                if(proveedor != null){
+               Proveedor proveedor = proveedorDao.buscarProveedor(new Proveedor("Pr_"+numeroID)); // buscamos al proveedor
+                if(proveedor != null){ // si si se encuentra llenamos la tabla con el registro encontrado
                     limpiarTabla();
                     proveedorObjeto[0] = proveedor.getId();
                     proveedorObjeto[1] = proveedor.getNombre();
@@ -263,32 +270,35 @@ public final class FrmProveedores extends javax.swing.JFrame {
                     modelo.addRow(proveedorObjeto);
                     lblProveedores.setText("Productos en inventario: 1");
                 }else{
+                    // se limpia la tabla y se muestra un mensaje de error en caso de no encontrar el proveedor
                     lblProveedores.setText("No hay productos");
                     limpiarTabla();
                     JOptionPane.showMessageDialog(null,"Proveedor no encontrado","busqueda vacia", JOptionPane.ERROR_MESSAGE);
                 } 
             }catch(NumberFormatException nfe){
+                // mensaje de error por si los datos no son numeros
                  JOptionPane.showMessageDialog(null,"Ingrese valores enteros","Error al buscar", JOptionPane.ERROR_MESSAGE);
             }
             
-        }else if(!txtBuscarNombre.getText().equals("")){
-            ArrayList listaTemp = proveedorDao.buscarPorNombre(txtBuscarNombre.getText());
-            limpiarTabla();
+        }else if(!txtBuscarNombre.getText().equals("")){// si el id esta vacio pero el nombre no la busqueda será por nombre
+            ArrayList listaTemp = proveedorDao.buscarPorNombre(txtBuscarNombre.getText()); // se buscan los registros con las coincidencias
+            limpiarTabla(); 
+            // se llena la tabla con los registros
             llenarTabla(listaTemp);
-            if(listaTemp.isEmpty())
+            if(listaTemp.isEmpty()) // si la lista es vacia se muestra un mensaje de proveedores no encontrados
                  JOptionPane.showMessageDialog(null,"Proveedor(es) no encontrado","busqueda vacia", JOptionPane.ERROR_MESSAGE);
            
         }
         txtBuscarID.setText("");
         txtBuscarNombre.setText("");
     }//GEN-LAST:event_btnBuscarMouseClicked
-
+    // metodo que crea la ventana menu y se elimina la actual
     private void btnMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuMouseClicked
        FrmMenuPrincipal menu =  new FrmMenuPrincipal();
        menu.setVisible(true);
        this.dispose();
     }//GEN-LAST:event_btnMenuMouseClicked
-    
+    // metodo que limpia la tabla componente
     void limpiarTabla(){
         for(int i = 0; i < tblProveedores.getRowCount();i++)
         {
@@ -296,10 +306,11 @@ public final class FrmProveedores extends javax.swing.JFrame {
             i--;
         }
     }
-    
+    // metodo que llena la tabla con los registros de la lisra
     public void llenarTabla(ArrayList<Proveedor> lista){
         int i;
-        Object[] proveedor = new Object[5];
+        Object[] proveedor = new Object[5]; 
+        // se recorre toda la lista y se llena la tabla
         for(i = 0; i < lista.size(); i++){
             proveedor[0] = lista.get(i).getId();
             proveedor[1] = lista.get(i).getNombre();
@@ -307,7 +318,7 @@ public final class FrmProveedores extends javax.swing.JFrame {
             proveedor[3] = lista.get(i).getCorreo();
             proveedor[4] = lista.get(i).escribirDias();
            
-            modelo.addRow(proveedor);
+            modelo.addRow(proveedor); // se agrega la nueva fila
         }
         tblProveedores.setModel(modelo);
         if(i != 0)

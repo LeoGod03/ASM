@@ -1,26 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package modelo;
-
-/**
- *
- * @author arral
- */
-public class Proveedor {
-
-   
-   
+public final class Proveedor {
+    // atributos de la clase
     private String id;
     private String nombre;
     private String telefono;
     private String correo;
     private boolean[] dias;
     
+    // constructor para busquedas, solo recibe el ID como parametro
     public Proveedor(String id){
         this.id=id;
+        setNombre("");
+        setTelefono("");
+        setCorreo("");
+        setDias(null);
     }
+    // constructor para hacer los insert o updates en las tablas de la base de datos
     public Proveedor(String id, String nombre, String telefono, String correo,boolean[] dias) {
         this.id = id;
         this.nombre = nombre;
@@ -28,7 +24,8 @@ public class Proveedor {
         this.correo = correo;
         this.dias = dias;
     }
-
+    
+    // los metodos get y set de los atributos de la clase
     public String getId() {
         return id;
     }
@@ -47,11 +44,8 @@ public class Proveedor {
 
    
 
-       public void setId(int id) {
-       if(id > 0)
-           this.id ="Pr_" + id;
-       else
-           System.out.println("Valor ID invalido");
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setNombre(String nombre) {
@@ -65,35 +59,40 @@ public class Proveedor {
     public void setCorreo(String correo) {
         this.correo = correo;
     }    
-    public static boolean telefonoValido(String telefono){
-       return (telefono != null && telefono.matches("[0-9]+") && telefono.length() == 10);
-    }
-    public static boolean correoValido(String correo){
-        return (correo != null && correo.matches("^[_A-Za-z0-9-\\.+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")); 
-    }
+   
     public boolean[] getDias() {
         return dias;
     }
     public void setDias(boolean[] dias) {
         this.dias = dias;
     }
-    
+    // este metodo es para regresar una cadina en forma de lista estilo lunes,martes.....,domingo
     public String escribirDias(){
         String[] semana = {"Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"};
         String diasTexto = "";
         for(int i = 0; i < 7; i++){
-            if(dias[i]){
+            if(dias[i]){ // si es verdadero que el proveedor reparte en esos dias se agrega a la cadena de texto
                 diasTexto += semana[i];
                 diasTexto += ",";
             }
             
         }
         
-        return diasTexto.substring(0, diasTexto.length()-1);
+        return diasTexto.substring(0, diasTexto.length()-1); // se regresa en subcadena para quitarle la "," que tiene de mas
     }
-    
+    // sobreescribimos el metodo string para pruebas en consola
     @Override
     public String toString() {
-        return "proveedor [id=" + id + ", nombre=" + nombre + ", numero=" + telefono + "]";
+        return "proveedor [id=" + id + ", nombre=" + nombre + ", numero=" + telefono + "correo = "+correo+" dias de reparto = "+escribirDias()+"]";
+    }
+    
+    // metodo estatico de la clase para verificar que sea un telefono común valido
+    public static boolean telefonoValido(String telefono){
+       return (telefono != null && telefono.matches("[0-9]+") && telefono.length() == 10);
+    }
+    
+    // metodo estatico de la clase para verificar mediante expresión regular si el correo es valido
+    public static boolean correoValido(String correo){
+        return (correo != null && correo.matches("^[_A-Za-z0-9-\\.+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")); 
     }
 }
