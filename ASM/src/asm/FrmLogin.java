@@ -93,7 +93,7 @@ public class FrmLogin extends javax.swing.JFrame {
     // metodo para cuando presione el botón de inicio de sesión
     private void btLoginMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btLoginMousePressed
         String password = new String(pwUsuario.getPassword());
-        if(password.equals("TlapAdmin"))// se verifica que la contraseña es correcta
+        if(password.equals("TlapaAdmin"))// se verifica que la contraseña es correcta
         {
             // se crea el menu y se manda mensaje de login correcto
             FrmMenuPrincipal menu = new FrmMenuPrincipal();

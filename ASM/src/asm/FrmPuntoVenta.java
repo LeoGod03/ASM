@@ -1,6 +1,7 @@
 
 package asm;
 // importamos las librerias que necesitamos
+import dao.AlertaDao;
 import dao.ProductoDao;
 import dao.VentaDao;
 import java.awt.event.KeyEvent;
@@ -16,6 +17,7 @@ public class FrmPuntoVenta extends javax.swing.JFrame {
     private final DefaultTableModel modelo;
     private final ProductoDao productoDao;
     private final VentaDao ventaDao;
+    private final AlertaDao alertaDao;
     public double sumaTotal;
     // constructor;
     public FrmPuntoVenta() {
@@ -25,6 +27,7 @@ public class FrmPuntoVenta extends javax.swing.JFrame {
         modelo = (DefaultTableModel) tblProductosVenta.getModel();
         productoDao = new ProductoDao();
         ventaDao = new VentaDao();
+        alertaDao = new AlertaDao();
     }
 
    
@@ -131,7 +134,7 @@ public class FrmPuntoVenta extends javax.swing.JFrame {
             }
         });
 
-        btnMenu.setText("Menú principal");
+        btnMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/home.png"))); // NOI18N
         btnMenu.setBorder(null);
         btnMenu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnMenu.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -148,7 +151,7 @@ public class FrmPuntoVenta extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
-                .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -204,7 +207,7 @@ public class FrmPuntoVenta extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
@@ -274,16 +277,22 @@ public class FrmPuntoVenta extends javax.swing.JFrame {
     private void btnAceptarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseClicked
        if(tblProductosVenta.getRowCount() > 0){
            Object[] producto = new Object[2];
+           Producto productoIteracion;
+           int cantidad;
            // recorre la tabla y va actualizando la cantidad de inventario en la base de datos
            for(int i = 0; i < tblProductosVenta.getRowCount(); i++){
                producto[0] = tblProductosVenta.getValueAt(i, 0);
                producto[1]= tblProductosVenta.getValueAt(i,3);
-               productoDao.actualizarCantidad(new Producto((String)producto[0]),(int) producto[1]);
+               productoIteracion = productoDao.buscarProducto(new Producto((String)producto[0]));
+               cantidad = Math.max(0, productoIteracion.getCantidadInventario() - (int)producto[1]);
+               productoDao.actualizarCantidad(new Producto((String)producto[0]),cantidad);
+               if(cantidad <= productoIteracion.getCantidadMinima())
+                    alertaDao.insertar(productoIteracion);
            }
-           Date fecha = new Date(new Date().getTime());
+           java.sql.Date fecha = new java.sql.Date(new Date().getTime());
            int ultimoRegistro = DevolverUltimoID(); // asignamos id a la venta
            String id = "Vta_"+(ultimoRegistro+1);  
-           Venta venta = new Venta(id,fecha,sumaTotal); // creamos la venta
+           Venta venta = new Venta(id, (java.sql.Date) fecha,sumaTotal); // creamos la venta
            ventaDao.insertar(venta); // la insertamos en la base
            limpiarTabla();
            lblPrecioTotal.setText("$0.0");

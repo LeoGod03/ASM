@@ -49,8 +49,16 @@
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="lbBienvenido" min="-2" pref="410" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="204" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="lbBienvenido" min="-2" pref="410" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="204" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="btnAlertas" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="370" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
           </Group>
       </Group>
     </DimensionLayout>
@@ -73,7 +81,9 @@
                   <Component id="lbProveedores" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lbCorteCaja" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="104" max="32767" attributes="0"/>
+              <EmptySpace pref="39" max="32767" attributes="0"/>
+              <Component id="btnAlertas" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -179,6 +189,14 @@
         <Property name="text" type="java.lang.String" value="CorteCaja"/>
         <Property name="verticalAlignment" type="int" value="3"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnAlertas">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Alertas"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAlertasMouseClicked"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

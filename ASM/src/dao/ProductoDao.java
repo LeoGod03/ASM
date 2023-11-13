@@ -238,7 +238,7 @@ public class ProductoDao {
     public void actualizarCantidad(Producto producto, int cantidad){
         Connection conexion = administrador.dameConexion(); // pedimos la conexión
         String comandoSQL = "UPDATE inventario "
-                           + "SET cantidad_en_inventario = cantidad_en_inventario - " +cantidad+" "
+                           + "SET cantidad_en_inventario = " +cantidad+" "
                            + "WHERE id_producto like '"+producto.getId()+"';"; // comando para actualizar la cantidad
         PreparedStatement comando;
         try{

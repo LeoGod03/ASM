@@ -1,12 +1,17 @@
 
 package asm;
 
+import dao.AlertaDao;
 
 public class FrmMenuPrincipal extends javax.swing.JFrame {
-
+    private final AlertaDao alertaDao;
     // constructor
     public FrmMenuPrincipal() {
         initComponents();
+        alertaDao = new AlertaDao();
+        
+        btnAlertas.setText("Alertas("+alertaDao.pedirTabla().size()+")");
+        
     }
 
     
@@ -23,6 +28,7 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         lbInventario = new javax.swing.JLabel();
         lbProveedores = new javax.swing.JLabel();
         lbCorteCaja = new javax.swing.JLabel();
+        btnAlertas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú principal");
@@ -84,6 +90,13 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         lbCorteCaja.setText("CorteCaja");
         lbCorteCaja.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
+        btnAlertas.setText("Alertas");
+        btnAlertas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAlertasMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -110,8 +123,13 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
                 .addGap(52, 52, 52))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lbBienvenido, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(204, 204, 204))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lbBienvenido, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(204, 204, 204))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnAlertas)
+                        .addGap(370, 370, 370))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,7 +148,9 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
                     .addComponent(lbInventario)
                     .addComponent(lbProveedores)
                     .addComponent(lbCorteCaja))
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addComponent(btnAlertas)
+                .addGap(42, 42, 42))
         );
 
         pack();
@@ -161,6 +181,12 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         this.dispose();
         
     }//GEN-LAST:event_btCorteCajaMouseClicked
+
+    private void btnAlertasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlertasMouseClicked
+        FrmAlertas alertas = new FrmAlertas();
+        alertas.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnAlertasMouseClicked
 
     /**
      * @param args the command line arguments
@@ -202,6 +228,7 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btInventario;
     private javax.swing.JButton btProveedores;
     private javax.swing.JButton btVenta;
+    private javax.swing.JButton btnAlertas;
     private javax.swing.JLabel lbBienvenido;
     private javax.swing.JLabel lbCorteCaja;
     private javax.swing.JLabel lbInventario;

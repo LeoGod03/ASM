@@ -103,7 +103,7 @@ public final class FrmProveedores extends javax.swing.JFrame {
             }
         });
 
-        btnModificar.setText("Modificar");
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/modificar.png"))); // NOI18N
         btnModificar.setAutoscrolls(true);
         btnModificar.setBorder(null);
         btnModificar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -136,7 +136,7 @@ public final class FrmProveedores extends javax.swing.JFrame {
             }
         });
 
-        btnMenu.setText("Menú principal");
+        btnMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/home.png"))); // NOI18N
         btnMenu.setBorder(null);
         btnMenu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnMenu.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -172,14 +172,14 @@ public final class FrmProveedores extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)
+                        .addGap(44, 44, 44)
+                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
                         .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
+                        .addGap(37, 37, 37)
                         .addComponent(btnMostrarLista, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(36, 36, 36)
+                        .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 832, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -218,9 +218,9 @@ public final class FrmProveedores extends javax.swing.JFrame {
     // metodo al hacer clic en el botón eliminar
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
         if(tblProveedores.getSelectedRow() != -1){ // verificamos que haya seleccionado un proveeedor
-            Object[] proveedorObjeto = new Object[1];
-            proveedorObjeto[0] = modelo.getValueAt(tblProveedores.getSelectedRow(),0);
-            Proveedor proveedor = proveedorDao.buscarProveedor(new Proveedor((String)proveedorObjeto[0])); // buscamos al proveedor en la base de datos
+            Object proveedorObjeto = new Object();
+            proveedorObjeto  = modelo.getValueAt(tblProveedores.getSelectedRow(),0);
+            Proveedor proveedor = proveedorDao.buscarProveedor(new Proveedor((String)proveedorObjeto)); // buscamos al proveedor en la base de datos
             // preguntamos si esta seguro de eliminar al proveedor
             int opcion = JOptionPane.showConfirmDialog(null,"¿Esta seguro de eliminar el proveedor: " + proveedor.getId()+"?","Confirmacion",JOptionPane.YES_NO_OPTION);
             // si la opcion es afirmativa se elimina de la base y se muestra un mensaje de eliminado con exito
@@ -242,12 +242,13 @@ public final class FrmProveedores extends javax.swing.JFrame {
         FrmDatosProveedor agregar = new FrmDatosProveedor(null,this); // se pasa nulo porque será nuevo proveedor y la referencia a la ventana actual
         agregar.setVisible(true);
     }//GEN-LAST:event_btnAgregarMouseClicked
-    
+    // metodo para modificar a un proveedor
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
        if(tblProveedores.getSelectedRow() != -1){ // verificamos que se haya seleccionado un proveedor a modificar
-            Object[] proveedorObjeto = new Object[1];
-            proveedorObjeto[0] = modelo.getValueAt(tblProveedores.getSelectedRow(),0);
-            Proveedor proveedor = proveedorDao.buscarProveedor(new Proveedor((String)proveedorObjeto[0])); // buscamos al proveedor
+            // buscamos el producto seleccionado y lo almacenamos en una instancia de producto
+           Object productoObjeto = new Object();
+           productoObjeto = modelo.getValueAt(tblProveedores.getSelectedRow(),0);
+           Proveedor proveedor = proveedorDao.buscarProveedor(new Proveedor((String)productoObjeto));
             // creamos una ventana con el proveedor seleccionado para mostrar la informacion dada
             FrmDatosProveedor actualizar = new FrmDatosProveedor(proveedor,this);
             actualizar.setVisible(true);

@@ -16,8 +16,8 @@ public class FrmDatosProveedor extends javax.swing.JFrame {
     private String accion;
     public FrmDatosProveedor(Proveedor proveedor,FrmProveedores proveedores) {
         proveedorDao = new ProveedorDao();
-        JCheckBox[] diasSeleccion = {tboxLunes,tboxMartes,tboxMiercoles,tboxJueves,tboxViernes,tboxSabado,tboxDomingo}; 
         initComponents(); // inicializamos los componentes 
+        JCheckBox[] diasSeleccion = {tboxLunes,tboxMartes,tboxMiercoles,tboxJueves,tboxViernes,tboxSabado,tboxDomingo}; 
         if(proveedor != null){ // si el proveedor no es nulo se llenan los campos con la información del proveedor
             boolean[] dias = proveedor.getDias();
             id = proveedor.getId();

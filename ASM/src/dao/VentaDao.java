@@ -127,7 +127,7 @@ public class VentaDao {
            comando.close(); // cerramos el comando
        }catch(SQLException e){
            // mensaje de error
-           JOptionPane.showMessageDialog(null, "Error al inertar la venta", "Error",JOptionPane.ERROR_MESSAGE);
+           JOptionPane.showMessageDialog(null, "Error al insertar la venta", "Error",JOptionPane.ERROR_MESSAGE);
        }
        administrador.cerrarConexion(); // cerramos la conexión
    }
@@ -145,7 +145,7 @@ public class VentaDao {
 	try {
             comando = conexion.prepareStatement(comandoSQL); // preparamos el comando
             ResultSet resultado = comando.executeQuery(); // ejecutamos el comando y lo guardamos en resultado
-            if(resultado.next()) // si el resultado tiene el registro entonces cera la venta resulatdo
+            if(resultado.next()) // si el resultado tiene el registro entonces sera la venta resulatdo
                 ventaResultado = new Venta(resultado.getString("id_venta"));
             comando.close(); // cerramos el comando 
 	} catch (SQLException e) {

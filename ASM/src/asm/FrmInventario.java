@@ -64,7 +64,7 @@ public final class FrmInventario extends javax.swing.JFrame {
             }
         });
 
-        btnModificar.setText("Modificar");
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/modificar.png"))); // NOI18N
         btnModificar.setAutoscrolls(true);
         btnModificar.setBorder(null);
         btnModificar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -139,7 +139,7 @@ public final class FrmInventario extends javax.swing.JFrame {
             }
         });
 
-        btnMenu.setText("Menú principal");
+        btnMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/home.png"))); // NOI18N
         btnMenu.setBorder(null);
         btnMenu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnMenu.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -175,13 +175,13 @@ public final class FrmInventario extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(44, 44, 44)
-                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
+                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)
                         .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
+                        .addGap(47, 47, 47)
                         .addComponent(btnMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -207,12 +207,13 @@ public final class FrmInventario extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(14, 14, 14))
         );
 
@@ -222,9 +223,9 @@ public final class FrmInventario extends javax.swing.JFrame {
     private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
       if(tblProductos.getSelectedRow() != -1){ // verificamos que se haya seleccionado un producto
             // se obtiene el id del porducto seleccionado por el usuario desde la tabla
-            Object[] productoObjeto = new Object[1];
-            productoObjeto[0] = modelo.getValueAt(tblProductos.getSelectedRow(),0);
-            Producto producto = productoDao.buscarProducto(new Producto((String)productoObjeto[0])); // buscamos el producot en la base
+            Object productoObjeto = new Object();
+            productoObjeto = modelo.getValueAt(tblProductos.getSelectedRow(),0);
+            Producto producto = productoDao.buscarProducto(new Producto((String)productoObjeto)); // buscamos el producot en la base
             // preguntamos si esta seguro de eliminar el producto
             int opcion = JOptionPane.showConfirmDialog(null,"¿Esta seguro de eliminar el producto: " + producto.getId()+"?","Confirmacion",JOptionPane.YES_NO_OPTION);
             // en caso afirmativo se elimina de la base de datos y de la tabla
@@ -243,9 +244,9 @@ public final class FrmInventario extends javax.swing.JFrame {
     private void btnModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseClicked
       if(tblProductos.getSelectedRow() != -1){ // verificamos que haya seleccionado el producto a modificar
             // buscamos el producto seleccionado y lo almacenamos en una instancia de producto
-           Object[] productoObjeto = new Object[1];
-           productoObjeto[0] = modelo.getValueAt(tblProductos.getSelectedRow(),0);
-           Producto producto = productoDao.buscarProducto(new Producto((String)productoObjeto[0]));
+           Object productoObjeto = new Object();
+           productoObjeto = modelo.getValueAt(tblProductos.getSelectedRow(),0);
+           Producto producto = productoDao.buscarProducto(new Producto((String)productoObjeto));
            // creamos una ventana de datos de producto y le pasamos la referencia a dicha ventana
            FrmDatosProducto actualizar = new FrmDatosProducto(producto,this); // le pasamos como parametro el producto y la refrencia a la ventana inventario
            actualizar.setVisible(true);
