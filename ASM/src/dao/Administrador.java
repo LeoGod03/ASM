@@ -27,7 +27,7 @@ public class Administrador { // clase que obtiene la conexion con la base de dat
             Class.forName("org.postgresql.Driver"); // pedimos el driver de postgres
             conexion = DriverManager.getConnection(url,usuarioBD,contrasenaBD); // le pedimos la conexion con URL,Usuario y Contraseña
 	}catch(SQLException sql){
-            // mensaje de expecion para error del SQL
+            // mensaje de exepcion para error del SQL
             JOptionPane.showMessageDialog(null, "No se pudo conectar con la base de datos", "Error de conexión", JOptionPane.ERROR_MESSAGE);
         }catch(Exception e) {
             System.out.println(e.getMessage());

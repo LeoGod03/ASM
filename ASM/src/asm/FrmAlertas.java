@@ -6,17 +6,19 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import modelo.Alerta;
 
-
 public class FrmAlertas extends javax.swing.JFrame {
+    // atributos de la ventana de alertas
     private final AlertaDao alertaDao;
     private final DefaultTableModel modelo;
-    public FrmAlertas() {
+    public FrmAlertas() { // constructor
+        // incializamos componentes y dao
         initComponents();
         alertaDao = new AlertaDao();
         modelo = (DefaultTableModel) tblAlertas.getModel();
         ArrayList<Alerta> lista = alertaDao.pedirTabla();
         lblPedidos.setText("Alerta de pedidos: "+lista.size());
         Object[] alerta = new Object[6];
+        // llenamos la tabla con los registros de alerta
         for(Alerta a : lista){
             alerta[0] = a.getId();
             alerta[1] = a.getIdProducto();
@@ -26,7 +28,7 @@ public class FrmAlertas extends javax.swing.JFrame {
             alerta[5] = a.getCantidadPedido();
             modelo.addRow(alerta);
         }
-        tblAlertas.setModel(modelo);
+        tblAlertas.setModel(modelo); // asignamos el modelo al componente de tabla
     }
 
     
@@ -37,10 +39,17 @@ public class FrmAlertas extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAlertas = new javax.swing.JTable();
         lblPedidos = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
         btnMenu = new javax.swing.JButton();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Pedidos");
+        setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         tblAlertas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -70,12 +79,12 @@ public class FrmAlertas extends javax.swing.JFrame {
 
         lblPedidos.setText("Alerta de pedidos");
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/eliminar.png"))); // NOI18N
-        jButton1.setBorder(null);
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/eliminar.png"))); // NOI18N
+        btnEliminar.setBorder(null);
+        btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                btnEliminarMouseClicked(evt);
             }
         });
 
@@ -99,7 +108,7 @@ public class FrmAlertas extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(44, 44, 44)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(lblPedidos))
                 .addContainerGap(44, Short.MAX_VALUE))
@@ -115,7 +124,7 @@ public class FrmAlertas extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(64, 64, 64)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(45, 45, 45)
                         .addComponent(btnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(26, 26, 26))
@@ -124,19 +133,27 @@ public class FrmAlertas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+    // metodo para eliminar un registro de la tabla de alertas
+    private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
         if(tblAlertas.getSelectedRow() != -1){
             Object alerta = new Object();
             alerta = tblAlertas.getValueAt(tblAlertas.getSelectedRow(),0);
-            alertaDao.eliminarAlerta(new Alerta((String)alerta));
+            alertaDao.eliminarAlerta(new Alerta((int)alerta)); // eliminamos la alerta de la BD
             modelo.removeRow(tblAlertas.getSelectedRow());
             tblAlertas.setModel(modelo);
         }
-    }//GEN-LAST:event_jButton1MouseClicked
+    }//GEN-LAST:event_btnEliminarMouseClicked
 
     private void btnMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuMouseClicked
+       // se elimina el form
         this.dispose();
     }//GEN-LAST:event_btnMenuMouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // se crea una nueva instancia de el menú 
+        FrmMenuPrincipal menu = new FrmMenuPrincipal();
+        menu.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
 
     
     public static void main(String args[]) {
@@ -172,8 +189,8 @@ public class FrmAlertas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnMenu;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblPedidos;
     private javax.swing.JTable tblAlertas;

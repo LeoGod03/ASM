@@ -45,8 +45,13 @@ public final class FrmProveedores extends javax.swing.JFrame {
         btnMostrarLista = new javax.swing.JButton();
         btnMenu = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Proveedores");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         lblBuscar.setText("Buscar");
 
@@ -220,7 +225,7 @@ public final class FrmProveedores extends javax.swing.JFrame {
         if(tblProveedores.getSelectedRow() != -1){ // verificamos que haya seleccionado un proveeedor
             Object proveedorObjeto = new Object();
             proveedorObjeto  = modelo.getValueAt(tblProveedores.getSelectedRow(),0);
-            Proveedor proveedor = proveedorDao.buscarProveedor(new Proveedor((String)proveedorObjeto)); // buscamos al proveedor en la base de datos
+            Proveedor proveedor = proveedorDao.buscarProveedor(new Proveedor((int)proveedorObjeto)); // buscamos al proveedor en la base de datos
             // preguntamos si esta seguro de eliminar al proveedor
             int opcion = JOptionPane.showConfirmDialog(null,"¿Esta seguro de eliminar el proveedor: " + proveedor.getId()+"?","Confirmacion",JOptionPane.YES_NO_OPTION);
             // si la opcion es afirmativa se elimina de la base y se muestra un mensaje de eliminado con exito
@@ -248,7 +253,7 @@ public final class FrmProveedores extends javax.swing.JFrame {
             // buscamos el producto seleccionado y lo almacenamos en una instancia de producto
            Object productoObjeto = new Object();
            productoObjeto = modelo.getValueAt(tblProveedores.getSelectedRow(),0);
-           Proveedor proveedor = proveedorDao.buscarProveedor(new Proveedor((String)productoObjeto));
+           Proveedor proveedor = proveedorDao.buscarProveedor(new Proveedor((int)productoObjeto));
             // creamos una ventana con el proveedor seleccionado para mostrar la informacion dada
             FrmDatosProveedor actualizar = new FrmDatosProveedor(proveedor,this);
             actualizar.setVisible(true);
@@ -260,7 +265,7 @@ public final class FrmProveedores extends javax.swing.JFrame {
         if(!txtBuscarID.getText().equals("")){ // si el id no esta vacio la busqueda será por id directamente
             try{
                int numeroID = Integer.parseInt(txtBuscarID.getText());
-               Proveedor proveedor = proveedorDao.buscarProveedor(new Proveedor("Pr_"+numeroID)); // buscamos al proveedor
+               Proveedor proveedor = proveedorDao.buscarProveedor(new Proveedor(numeroID)); // buscamos al proveedor
                 if(proveedor != null){ // si si se encuentra llenamos la tabla con el registro encontrado
                     limpiarTabla();
                     proveedorObjeto[0] = proveedor.getId();
@@ -269,10 +274,10 @@ public final class FrmProveedores extends javax.swing.JFrame {
                     proveedorObjeto[3] = proveedor.getCorreo();
                     proveedorObjeto[4] = proveedor.escribirDias();
                     modelo.addRow(proveedorObjeto);
-                    lblProveedores.setText("Productos en inventario: 1");
+                    lblProveedores.setText("Proveedores: 1");
                 }else{
                     // se limpia la tabla y se muestra un mensaje de error en caso de no encontrar el proveedor
-                    lblProveedores.setText("No hay productos");
+                    lblProveedores.setText("No hay proveedores");
                     limpiarTabla();
                     JOptionPane.showMessageDialog(null,"Proveedor no encontrado","busqueda vacia", JOptionPane.ERROR_MESSAGE);
                 } 
@@ -293,12 +298,17 @@ public final class FrmProveedores extends javax.swing.JFrame {
         txtBuscarID.setText("");
         txtBuscarNombre.setText("");
     }//GEN-LAST:event_btnBuscarMouseClicked
-    // metodo que crea la ventana menu y se elimina la actual
+    // se elimina la actual ventana
     private void btnMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuMouseClicked
-       FrmMenuPrincipal menu =  new FrmMenuPrincipal();
-       menu.setVisible(true);
+      
        this.dispose();
     }//GEN-LAST:event_btnMenuMouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // creamos la ventana de menu al cerrar
+        FrmMenuPrincipal menu =  new FrmMenuPrincipal();
+        menu.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
     // metodo que limpia la tabla componente
     void limpiarTabla(){
         for(int i = 0; i < tblProveedores.getRowCount();i++)

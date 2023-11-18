@@ -6,18 +6,18 @@ package modelo;
 
 public final class Producto {
     // atributos de la clase producto
-    private String id;
+    private int id;
     private String nombre;
     private String descripcion;
     private double precioProveedor;
     private double precioPublico;
-    private String idProveedor;
+    private int idProveedor;
     private int cantidadInventario;
     private int cantidadMinima;
     private int cantidadPedido;
     
     // este constructor es con todos los atributos como parametro para hacer las insercciones y modificaciones en las tablas
-    public Producto(String id,String nombre,String descripcion,double precioProveedor, double precioPublico,String idProveedor,
+    public Producto(int id,String nombre,String descripcion,double precioProveedor, double precioPublico,int idProveedor,
                     int cantidadInventario, int cantidadMinima, int cantidadPedido){
         this.id = id;
         this.nombre = nombre;
@@ -30,14 +30,14 @@ public final class Producto {
         setCantidadPedido(cantidadPedido);
     }
     // este constructor solo pide el ID para hacer busquedas o eliminaciones
-    public Producto (String id){
+    public Producto (int id){
         this.id  = id;
         setNombre("");
         setDescripcion("");
         setPrecioPublico(0);
         setCantidadInventario(0);
         setPrecioProveedor(0);
-        setIdProveedor("");
+        setIdProveedor(1);
         setCantidadMinima(0);
         setCantidadPedido(0);
         
@@ -46,8 +46,11 @@ public final class Producto {
    
    // los metodos get y set de los atributos
     
-    public void setId(String id){
-        this.id = id;
+    public void setId(int id){
+        if(id > 0)
+            this.id = id;
+        else
+            this.id = 1;
     }
 
     public void setNombre(String nombre) {
@@ -58,8 +61,11 @@ public final class Producto {
         this.descripcion = descripcion;
     }
     
-    public void setIdProveedor(String idProveedor) {
-        this.idProveedor = idProveedor;
+    public void setIdProveedor(int idProveedor) {
+        if(idProveedor > 0)
+            this.idProveedor = idProveedor;
+        else 
+            this.idProveedor = 1;
     }
     // metodos set donde abrá numeros en si
     public void setCantidadInventario(int cantidadInventario) {
@@ -124,7 +130,7 @@ public final class Producto {
         return descripcion;
     }
 
-    public String getIdProveedor() {
+    public int getIdProveedor() {
         return idProveedor;
     }
     
@@ -132,7 +138,7 @@ public final class Producto {
         return nombre;
     }
     
-     public String getId() {
+     public int getId() {
         return id;
     }
      // metodo string para las pruebas en consola

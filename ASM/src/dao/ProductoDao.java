@@ -31,11 +31,11 @@ public class ProductoDao {
             comandoSQL = "INSERT INTO inventario VALUES(?,?,?,?,?,?,?)"; // código SQL para insertar el producto
             comando = conexion.prepareStatement(comandoSQL); // preparamos el comando
             // insertamos con los atributos del producto dado
-            comando.setString(1, producto.getId());
+            comando.setInt(1, producto.getId());
             comando.setString(2,producto.getNombre());
             comando.setString(3, producto.getDescripcion());
             comando.setDouble(4, producto.getPrecioPublico());
-            comando.setString(5, producto.getIdProveedor());
+            comando.setInt(5, producto.getIdProveedor());
             comando.setInt(6, producto.getCantidadInventario()); 
             comando.setDouble(7, producto.getPrecioProveedor());
             cantidades.InsertarProducto(producto, conexion); // ejecutamos el insert de cantidades DAO
@@ -60,20 +60,19 @@ public class ProductoDao {
         ArrayList<Producto> productos = new ArrayList<>(); // creamos una lista de productos
         Producto producto;
         Connection conexion = administrador.dameConexion(); // pedimos la conexión al administrador
-	String comandoSQL = "SELECT * FROM inventario INNER JOIN  control_cantidades ON inventario.id_producto = control_cantidades.id_producto"
-                            + " ORDER BY inventario.id_producto ASC"; // comando SQL para la obtención de todos los registros de la tabla inventario y cantidades
+	String comandoSQL = "SELECT * FROM inventario INNER JOIN  control_cantidades ON inventario.id_producto = control_cantidades.id_producto ORDER BY inventario.id_producto ASC"; // comando SQL para la obtención de todos los registros de la tabla inventario y cantidades
 	PreparedStatement comando;
 	try {
             comando = conexion.prepareStatement(comandoSQL); // preparamos el comando
             ResultSet resultado = comando.executeQuery(); // lo ejecutamos y lo guardamos en el objeto resultado
             while(resultado.next()){ // el while se ejecutará siempre y cuando tenga registros el resultado
                 // llenamos el producto con lo que tenga el resultado
-                producto = new Producto(resultado.getString("id_producto"),
+                producto = new Producto(resultado.getInt("id_producto"),
                                      resultado.getString("nombre_producto"),
                                   resultado.getString("descripcion"),
                                     resultado.getDouble("precio_proveedor"),
                                 resultado.getDouble("precio_publico"),
-                                     resultado.getString("id_proveedor"),
+                                     resultado.getInt("id_proveedor"),
                                     resultado.getInt("cantidad_en_inventario"),
                                     resultado.getInt("cantidad_minima"),
                                     resultado.getInt("cantidad_pedido"));
@@ -95,7 +94,7 @@ public class ProductoDao {
     public Producto buscarProducto(Producto producto){
         Producto productoResultado = null; // creamos un producto y lo inicializamos en nulo
         Connection conexion = administrador.dameConexion(); // pedimos la conexón 
-	String comandoSQL = "SELECT * FROM inventario WHERE id_producto like '"+producto.getId()+"'"; // comando SQL para la busqueda
+	String comandoSQL = "SELECT * FROM inventario WHERE id_producto = "+producto.getId()+";"; // comando SQL para la busqueda
 	PreparedStatement comando;
 	try {
             Producto productoCant = cantidades.buscarProducto(producto); // buscamos el producto en la tabla cantidades
@@ -103,12 +102,12 @@ public class ProductoDao {
             ResultSet resultado = comando.executeQuery();
             if(resultado.next()){ // verificamos que si exista un registro
                 // llenamos el producto resultado
-                productoResultado = new Producto(resultado.getString("id_producto"),
+                productoResultado = new Producto(resultado.getInt("id_producto"),
                                             resultado.getString("nombre_producto"),
                                             resultado.getString("descripcion"),
                                             resultado.getDouble("precio_proveedor"),
                                             resultado.getDouble("precio_publico"),
-                                            resultado.getString("id_proveedor"),
+                                            resultado.getInt("id_proveedor"),
                                             resultado.getInt("cantidad_en_inventario"),
                                             productoCant.getCantidadMinima(),
                                             productoCant.getCantidadPedido());
@@ -133,13 +132,13 @@ public class ProductoDao {
                 "descripcion = '" + producto.getDescripcion()+"',"+
                 "precio_proveedor = "+producto.getPrecioProveedor()+","+
                 "precio_publico = " + producto.getPrecioPublico()+","+
-                "id_proveedor = '" + producto.getIdProveedor()+"',"+
+                "id_proveedor = " + producto.getIdProveedor()+","+
                 "cantidad_en_inventario = "+producto.getCantidadInventario()+" "+
-                "where id_producto like '" + producto.getId()+"'; "+
+                "where id_producto  = " + producto.getId()+"; "+
                 "UPDATE control_cantidades "+
                 "SET cantidad_minima  = "+producto.getCantidadMinima()+","+
                 "cantidad_pedido = "+producto.getCantidadPedido()+" "
-                +"where id_producto like '"+producto.getId()+"';";
+                +"WHERE id_producto = "+producto.getId()+";";
                 
 	PreparedStatement comando;
 	try {
@@ -158,16 +157,14 @@ public class ProductoDao {
         Producto productoResultado = null;
         Connection conexion = administrador.dameConexion(); // pedimos la conexión al administrador
 	String comandoSQL = "SELECT id_producto " +
-                            "FROM inventario " +
-                            "ORDER BY id_producto DESC "+
-                            "LIMIT 1;"; // comando para obtener el ultimo registro
+                            "FROM inventario ORDER BY id_producto DESC LIMIT 1"; // comando para obtener el ultimo registro
                         
 	PreparedStatement comando;
 	try {
             comando = conexion.prepareStatement(comandoSQL); // preparamos el comando
             ResultSet resultado = comando.executeQuery(); // lo ejecutamos y guardamos los resultados de la consulta
             if(resultado.next())
-                productoResultado = new Producto(resultado.getString("id_producto")); // llenamos el producto con el resultado
+                productoResultado = new Producto(resultado.getInt("id_producto")); // llenamos el producto con el resultado
             
             comando.close(); // cerramos con el comando
 	} catch (SQLException e) {
@@ -184,7 +181,7 @@ public class ProductoDao {
     public void eliminarProducto(Producto producto){
         Connection conexion = administrador.dameConexion(); // pedimos al administrador una conexión
 	String comandoSQL;
-        comandoSQL = "DELETE FROM inventario WHERE id_producto like '"+producto.getId()+"';"; // comando para eliminar un producto
+        comandoSQL = "DELETE FROM inventario WHERE id_producto = "+producto.getId()+";"; // comando para eliminar un producto
 	PreparedStatement comando;
 	try {
             comando = conexion.prepareStatement(comandoSQL); // preparamos el comando
@@ -206,19 +203,19 @@ public class ProductoDao {
         Producto producto;
         Connection conexion = administrador.dameConexion(); // le pedimos una conexión al administrador
 	String comandoSQL = "SELECT inv.*,cont.cantidad_minima,cont.cantidad_pedido FROM inventario AS inv, control_cantidades AS cont WHERE inv.nombre_producto like '%"+nombre+"%'"
-                             + " AND inv.id_producto like cont.id_producto"; // comando para buscar coincidencias de nombre
+                             + " AND inv.id_producto = cont.id_producto"; // comando para buscar coincidencias de nombre
 	PreparedStatement comando;
 	try {
             comando = conexion.prepareStatement(comandoSQL); // preparamos el comando SQL
             ResultSet resultado = comando.executeQuery(); // guardamos los resultados de la ejecuación del comando
             while(resultado.next()){ // mientras existan registros
                 // creamos un producto con lo que mande el resultado
-                producto = new Producto(resultado.getString("id_producto"),
+                producto = new Producto(resultado.getInt("id_producto"),
                                   resultado.getString("nombre_producto"),
                                resultado.getString("descripcion"),
                                resultado.getDouble("precio_proveedor"),
                              resultado.getDouble("precio_publico"),
-                                resultado.getString("id_proveedor"),
+                                resultado.getInt("id_proveedor"),
                                 resultado.getInt("cantidad_en_inventario"),
                                 resultado.getInt("cantidad_minima"),
                                  resultado.getInt("cantidad_pedido"));
@@ -239,7 +236,7 @@ public class ProductoDao {
         Connection conexion = administrador.dameConexion(); // pedimos la conexión
         String comandoSQL = "UPDATE inventario "
                            + "SET cantidad_en_inventario = " +cantidad+" "
-                           + "WHERE id_producto like '"+producto.getId()+"';"; // comando para actualizar la cantidad
+                           + "WHERE id_producto = "+producto.getId()+";"; // comando para actualizar la cantidad
         PreparedStatement comando;
         try{
             comando = conexion.prepareStatement(comandoSQL); //preparamos el comando

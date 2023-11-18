@@ -49,8 +49,14 @@ public class FrmPuntoVenta extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         btnMenu = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Venta");
+        setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         lblIdProducto.setText("Id producto:");
 
@@ -224,7 +230,7 @@ public class FrmPuntoVenta extends javax.swing.JFrame {
                 cantidad = Integer.parseInt(txtCantidad.getText());
                 idProducto = Integer.parseInt(txtIdProducto.getText());
                 if(!buscarProducto("Pd_"+idProducto)){ // busca el producto por si ya esta en la lista de venta 
-                    producto = productoDao.buscarProducto(new Producto("Pd_"+idProducto)); // buscamos el producto en la base
+                    producto = productoDao.buscarProducto(new Producto(idProducto)); // buscamos el producto en la base
                     if(producto != null){
 
                         txtIdProducto.setText("");
@@ -283,9 +289,9 @@ public class FrmPuntoVenta extends javax.swing.JFrame {
            for(int i = 0; i < tblProductosVenta.getRowCount(); i++){
                producto[0] = tblProductosVenta.getValueAt(i, 0);
                producto[1]= tblProductosVenta.getValueAt(i,3);
-               productoIteracion = productoDao.buscarProducto(new Producto((String)producto[0]));
+               productoIteracion = productoDao.buscarProducto(new Producto((int)producto[0]));
                cantidad = Math.max(0, productoIteracion.getCantidadInventario() - (int)producto[1]);
-               productoDao.actualizarCantidad(new Producto((String)producto[0]),cantidad);
+               productoDao.actualizarCantidad(new Producto((int)producto[0]),cantidad);
                if(cantidad <= productoIteracion.getCantidadMinima())
                     alertaDao.insertar(productoIteracion);
            }
@@ -308,12 +314,16 @@ public class FrmPuntoVenta extends javax.swing.JFrame {
             sumaTabla();
         }
     }//GEN-LAST:event_btnEliminarMouseClicked
-    // metodo que crea el menu y se destruye la venta al hacer clic en menu principal
+    //se destruye la venta al hacer clic en menu principal
     private void btnMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuMouseClicked
-        FrmMenuPrincipal menu =  new FrmMenuPrincipal();
-        menu.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnMenuMouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // creamos el menu principal
+        FrmMenuPrincipal menu =  new FrmMenuPrincipal();
+        menu.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
     //metodo que devuelve el utlimo id de venta registrado
     private int DevolverUltimoID(){
         int id = 0;
@@ -347,7 +357,7 @@ public class FrmPuntoVenta extends javax.swing.JFrame {
             objeto[1] = modelo.getValueAt(i, 2);
             objeto[2] = modelo.getValueAt(i,0);
             
-            iteracion = productoDao.buscarProducto(new Producto((String)objeto[2]));
+            iteracion = productoDao.buscarProducto(new Producto((int)objeto[2]));
             sumaTotal += (Double) objeto[1] * (int) objeto[0]; // almacenamos la suma
            if(iteracion.getCantidadInventario() < (int)objeto[0] && !incoherencia) // buscamos alguna incoherencia con las cantidades pedidas y de inventario
                 incoherencia = true;

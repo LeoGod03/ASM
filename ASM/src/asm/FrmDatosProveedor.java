@@ -11,7 +11,7 @@ import modelo.Proveedor;
 public class FrmDatosProveedor extends javax.swing.JFrame {
     //atributos de la clase
     private final ProveedorDao proveedorDao;
-    private final String id;
+    private final int id;
     private final FrmProveedores proveedores;
     private String accion;
     public FrmDatosProveedor(Proveedor proveedor,FrmProveedores proveedores) {
@@ -28,8 +28,10 @@ public class FrmDatosProveedor extends javax.swing.JFrame {
                 diasSeleccion[i].setSelected(dias[i]);
             accion = "actualizado";
         }else{ // en caso contrario le asignamos una id nueva el proveedor que se agregará
-           int ultimoRegistro = DevolverUltimoID();
-           id = "Pr_"+(ultimoRegistro+1);  
+           if(proveedorDao.buscarUltimoProveedor() != null)
+                id = proveedorDao.buscarUltimoProveedor().getId() + 1;  
+           else
+               id = 1;
            accion = "agregado";
         }
        
@@ -71,6 +73,7 @@ public class FrmDatosProveedor extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
 
         setTitle("Datos proveedor");
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -79,9 +82,9 @@ public class FrmDatosProveedor extends javax.swing.JFrame {
 
         lblId.setText("Id proveedor:");
 
-        lblNombre.setText("Nombre del proveedor: ");
+        lblNombre.setText("Nombre del proveedor:(*) ");
 
-        lblTelefono.setText("Telefono:");
+        lblTelefono.setText("Telefono:(*)");
 
         lblCorreo.setText("Correo:");
 
@@ -115,10 +118,9 @@ public class FrmDatosProveedor extends javax.swing.JFrame {
 
         tboxDomingo.setBorder(null);
 
-        lblDiasReparto.setText("Dias de reparto:");
+        lblDiasReparto.setText("Dias de reparto:(*)");
 
         btnAgregarActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/palomita.png"))); // NOI18N
-        btnAgregarActualizar.setText("");
         btnAgregarActualizar.setAutoscrolls(true);
         btnAgregarActualizar.setBorder(null);
         btnAgregarActualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -158,7 +160,7 @@ public class FrmDatosProveedor extends javax.swing.JFrame {
                                     .addComponent(txtNombre)
                                     .addComponent(txtTelefono)
                                     .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(btnAgregarActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -246,17 +248,8 @@ public class FrmDatosProveedor extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    // metodo que devuelve el entero del ultimo ID que tiene la tabla de proveedores
-    private int DevolverUltimoID(){
-        int id = 0;
-        String[] partesId;
-        Proveedor proveedor = proveedorDao.buscarUltimoProveedor(); // busca al ultimo proveedor
-        if(proveedor != null){
-            partesId = proveedor.getId().split("_");
-            id = Integer.parseInt(partesId[1]);
-        }
-        return id; // retorna el entero del ultimo id encontrado
-    }
+
+   
     // metodo para cuando el usuario haga clic en agregar o actualizar
     private void btnAgregarActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarActualizarMouseClicked
         JCheckBox[] diasReparto = {tboxLunes,tboxMartes,tboxMiercoles,tboxJueves,tboxViernes,tboxSabado,tboxDomingo};

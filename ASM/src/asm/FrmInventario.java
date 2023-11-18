@@ -46,9 +46,15 @@ public final class FrmInventario extends javax.swing.JFrame {
         btnMostrar = new javax.swing.JButton();
         btnMenu = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Inventario");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         lblInventario.setText("Inventario");
 
@@ -225,7 +231,7 @@ public final class FrmInventario extends javax.swing.JFrame {
             // se obtiene el id del porducto seleccionado por el usuario desde la tabla
             Object productoObjeto = new Object();
             productoObjeto = modelo.getValueAt(tblProductos.getSelectedRow(),0);
-            Producto producto = productoDao.buscarProducto(new Producto((String)productoObjeto)); // buscamos el producot en la base
+            Producto producto = productoDao.buscarProducto(new Producto((int)productoObjeto)); // buscamos el producot en la base
             // preguntamos si esta seguro de eliminar el producto
             int opcion = JOptionPane.showConfirmDialog(null,"¿Esta seguro de eliminar el producto: " + producto.getId()+"?","Confirmacion",JOptionPane.YES_NO_OPTION);
             // en caso afirmativo se elimina de la base de datos y de la tabla
@@ -246,7 +252,7 @@ public final class FrmInventario extends javax.swing.JFrame {
             // buscamos el producto seleccionado y lo almacenamos en una instancia de producto
            Object productoObjeto = new Object();
            productoObjeto = modelo.getValueAt(tblProductos.getSelectedRow(),0);
-           Producto producto = productoDao.buscarProducto(new Producto((String)productoObjeto));
+           Producto producto = productoDao.buscarProducto(new Producto((int)productoObjeto));
            // creamos una ventana de datos de producto y le pasamos la referencia a dicha ventana
            FrmDatosProducto actualizar = new FrmDatosProducto(producto,this); // le pasamos como parametro el producto y la refrencia a la ventana inventario
            actualizar.setVisible(true);
@@ -265,7 +271,7 @@ public final class FrmInventario extends javax.swing.JFrame {
         if(!txtBuscarID.getText().equals("")){
             try{
                int numeroID = Integer.parseInt(txtBuscarID.getText()); // obtenemos el id
-               Producto producto = productoDao.buscarProducto(new Producto("Pd_"+numeroID)); // buscamos dicho producto
+               Producto producto = productoDao.buscarProducto(new Producto(numeroID)); // buscamos dicho producto
                 if(producto != null){ // si existe entonces actualizamos la tabla con un unico registro
                     limpiarTabla();
                     productoObjeto[0] = producto.getId();
@@ -297,7 +303,7 @@ public final class FrmInventario extends javax.swing.JFrame {
             // limpiamos y actualizamos la tabla con los registros encontrados
             limpiarTabla();
             llenarTabla(listaTemp);
-            if(!listaTemp.isEmpty()) // si dicha lista es vacio se mostrará un mensaje de error
+            if(listaTemp.isEmpty()) // si dicha lista es vacio se mostrará un mensaje de error
                 JOptionPane.showMessageDialog(null,"Producto(s) no encontrado","busqueda vacia", JOptionPane.ERROR_MESSAGE);
                 
            
@@ -313,12 +319,16 @@ public final class FrmInventario extends javax.swing.JFrame {
         lista = productoDao.pedirTabla(); // obtenemos los registros de la tabla
         llenarTabla(lista); 
     }//GEN-LAST:event_btnMostrarMouseClicked
-    // boton que crea de nuevo el frm de menu y elimina la ventana actual
+    //se elimina la ventana actual
     private void btnMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuMouseClicked
-        FrmMenuPrincipal menu =  new FrmMenuPrincipal();
-        menu.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnMenuMouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // se crea una instancia del menu 
+        FrmMenuPrincipal menu =  new FrmMenuPrincipal();
+        menu.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
 
    
     public static void main(String args[]) {

@@ -26,13 +26,13 @@ public class DiasRepartoDao {
             comandoSQL = "INSERT INTO dias_reparto VALUES(?,?,?,?,?,?,?,?)"; // comando SQL
             comando = conexion.prepareStatement(comandoSQL); // preparamos el comando
             // insertamos los datos
-            comando.setString(1,proveedor.getId());
+            comando.setInt(1,proveedor.getId());
             for(int i = 0; i < 7; i++)
                 comando.setBoolean(i+2, dias[i]);
             comando.executeUpdate(); // ejecutamos el código
             comando.close(); // cerramos el comando
 	} catch (SQLException e) {
-            // mensjae de error del registro
+            // mensaje de error del registro
             JOptionPane.showMessageDialog(null, "Error en el registro de los dias de reparto", "Error",JOptionPane.ERROR_MESSAGE);
 	}
 		
@@ -40,7 +40,7 @@ public class DiasRepartoDao {
     // metodo para buscar los días de reparto
     public boolean[] buscarDiasReparto(Proveedor proveedor, Connection conexion){
         boolean[] dias = new boolean[7];
-        String comandoSQL = "SElECT * FROM dias_reparto WHERE id_proveedor like '"+proveedor.getId()+"';"; // comando SQL
+        String comandoSQL = "SElECT * FROM dias_reparto WHERE id_proveedor = "+proveedor.getId()+";"; // comando SQL
         PreparedStatement comando;
         try{
             comando = conexion.prepareStatement(comandoSQL); // preparamos el comando
@@ -65,7 +65,7 @@ public class DiasRepartoDao {
     
     // metodo para eliminar los días del reparto
     public void eliminarDiasReparto(Proveedor proveedor, Connection conexion){
-        String comandoSQL = "DELETE FROM dias_reparto WHERE id_proveedor like '"+proveedor.getId()+"';"; // comando SQL para eliminar
+        String comandoSQL = "DELETE FROM dias_reparto WHERE id_proveedor = "+proveedor.getId()+";"; // comando SQL para eliminar
         PreparedStatement comando;
         try{
             comando = conexion.prepareStatement(comandoSQL); // preparamos el comando
@@ -115,7 +115,7 @@ public class DiasRepartoDao {
                           + "viernes = "+dias[4]+","
                           + "sabado = "+dias[5]+", "
                           + "domingo = "+dias[6]+" "
-                          + "WHERE id_proveedor like '"+ proveedor.getId()+"';"; // comando sql
+                          + "WHERE id_proveedor = "+ proveedor.getId()+";"; // comando sql
         PreparedStatement comando;
         try{
             comando = conexion.prepareStatement(comandoSQL); // preparamos el comando

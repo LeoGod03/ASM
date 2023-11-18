@@ -25,7 +25,6 @@ public final class FrmCorteCaja extends javax.swing.JFrame {
         // se inicializan atributos y se asigna la fecha de hoy a el controlador de fechas inicial
         ventaDao = new VentaDao();
         Date fecha = new Date(new Date().getTime());
-        System.out.println(fecha);
         modelo = (DefaultTableModel) tblVentas.getModel();
         fchIni.setDate(fecha);
         lista = ventaDao.corteCajaDia(fecha); // se obttienen las ventas del día actuak
@@ -50,8 +49,14 @@ public final class FrmCorteCaja extends javax.swing.JFrame {
         btnCorte = new javax.swing.JButton();
         btnMenu = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Corte de caja");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         tblVentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -231,11 +236,15 @@ public final class FrmCorteCaja extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCorteMouseClicked
     // metodo para crear el menú principal al darle al boton de menu principal
     private void btnMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMenuMouseClicked
-       // se crea el menu y se autodestruye el formulario
-        FrmMenuPrincipal menu =  new FrmMenuPrincipal();
-       menu.setVisible(true);
+       // se destruye el form
        this.dispose();
     }//GEN-LAST:event_btnMenuMouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // se crea la form del menú principal
+        FrmMenuPrincipal menu = new FrmMenuPrincipal();
+        menu.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
     // metodo para eliminar toda la tabla del form
     void limpiarTabla(){
         for(int i = 0; i < tblVentas.getRowCount();i++)

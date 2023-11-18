@@ -11,7 +11,7 @@ import modelo.Proveedor;
 
 public class FrmDatosProducto extends javax.swing.JFrame {
     // atributos de el form
-    private final String id;
+    private final int id;
     private final FrmInventario inventario;
     private final ProductoDao productoDao;
     private final String accion;
@@ -22,13 +22,12 @@ public class FrmDatosProducto extends javax.swing.JFrame {
         // si el producto no es nulo quiere decir que será para modificar por lo tanto llenamos los campos con la información del mismo
         if(producto != null){
             id = producto.getId();
-            idProveedor = Integer.parseInt(producto.getIdProveedor().split("_")[1]);
             txtNombre.setText(producto.getNombre());
             txtaDescripcion.setText(producto.getDescripcion());
             txtPrecioProveedor.setText(String.valueOf(producto.getPrecioProveedor()));
             txtCantidadInventario.setText(String.valueOf(producto.getCantidadInventario()));
             txtPrecio.setText(String.valueOf( producto.getPrecioPublico()));
-            txtProveedor.setText(String.valueOf(idProveedor));
+            txtProveedor.setText(String.valueOf(producto.getIdProveedor()));
             txtCantidadMinima.setText(String.valueOf(producto.getCantidadMinima()));
             txtCantidadPedido.setText(String.valueOf(producto.getCantidadPedido()));
             btnAgregarActualizar.setText("Agregar");
@@ -36,8 +35,7 @@ public class FrmDatosProducto extends javax.swing.JFrame {
         }
         else{
             // caso contrario, se agrerará un nuevo producto y le creamos un id en automatico
-            int ultimoRegistro = DevolverUltimoID();
-            id = "Pd_"+(ultimoRegistro+1);
+            id = productoDao.buscarUltimoProducto().getId() + 1;
             accion = "agregado";
             
         }
@@ -72,7 +70,8 @@ public class FrmDatosProducto extends javax.swing.JFrame {
         lblPrecioProveedor = new javax.swing.JLabel();
         txtPrecioProveedor = new javax.swing.JTextField();
 
-        setTitle("Actualizar producto");
+        setTitle("Datos producto");
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -82,16 +81,16 @@ public class FrmDatosProducto extends javax.swing.JFrame {
         lblId.setText("Id");
 
         lblNombre.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblNombre.setText("Nombre:");
+        lblNombre.setText("Nombre:(*)");
 
         lblDescripcion.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblDescripcion.setText("Descripcion:");
+        lblDescripcion.setText("Descripcion(*):");
 
         lblPrecioPublico.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblPrecioPublico.setText("Precio publico:");
+        lblPrecioPublico.setText("Precio publico:(*)");
 
         lblProveedor.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblProveedor.setText("Proveedor: Pr_");
+        lblProveedor.setText("Id proveedor:(*)");
 
         btnAgregarActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/palomita.png"))); // NOI18N
         btnAgregarActualizar.setAutoscrolls(true);
@@ -118,13 +117,13 @@ public class FrmDatosProducto extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txtaDescripcion);
 
         lblCantidadInventario.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblCantidadInventario.setText("Cantidad en inventario:");
+        lblCantidadInventario.setText("Cantidad en inventario:(*)");
 
-        lblCantidadMinima.setText("Cantidad minima:");
+        lblCantidadMinima.setText("Cantidad minima:(*)");
 
-        lblCantidadPedido.setText("Cantidad de pedido:");
+        lblCantidadPedido.setText("Cantidad de pedido:(*)");
 
-        lblPrecioProveedor.setText("Precio proveedor");
+        lblPrecioProveedor.setText("Precio proveedor:(*)");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -133,6 +132,26 @@ public class FrmDatosProducto extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblDescripcion)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblProveedor)
+                                    .addComponent(lblPrecioProveedor))
+                                .addGap(48, 48, 48)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                                    .addComponent(txtPrecioProveedor))))
+                        .addContainerGap(153, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblCantidadMinima)
@@ -151,28 +170,8 @@ public class FrmDatosProducto extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnAgregarActualizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btCancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblDescripcion)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblProveedor)
-                                    .addComponent(lblPrecioProveedor))
-                                .addGap(48, 48, 48)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
-                                    .addComponent(txtPrecioProveedor))))
-                        .addGap(0, 116, Short.MAX_VALUE)))
-                .addContainerGap(104, Short.MAX_VALUE))
+                            .addComponent(btCancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(84, 84, 84))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,14 +187,9 @@ public class FrmDatosProducto extends javax.swing.JFrame {
                     .addComponent(lblDescripcion)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAgregarActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(15, 15, 15)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblProveedor)
                             .addComponent(txtProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
@@ -206,7 +200,14 @@ public class FrmDatosProducto extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblPrecioPublico)
                             .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAgregarActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblCantidadInventario)
                             .addComponent(txtCantidadInventario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -260,9 +261,9 @@ public class FrmDatosProducto extends javax.swing.JFrame {
             precioProveedor = Double.valueOf(txtPrecioProveedor.getText());
             // verificamos que los numeros sean positivos
             if(cantidadMinima > 0 && cantidadPedido > 0 && precio > 0 && precioProveedor > 0 && cantidadInventario > 0){
-                if(proveedorDao.buscarProveedor(new Proveedor("Pr_"+idProveedor)) != null){ // verificamos que el proveedor elegido exista en la base de datos
+                if(proveedorDao.buscarProveedor(new Proveedor(idProveedor)) != null){ // verificamos que el proveedor elegido exista en la base de datos
                     // creamos un producto con la información obtenida
-                    Producto producto = new Producto(id,txtNombre.getText(),txtaDescripcion.getText(),precioProveedor,precio,"Pr_"+idProveedor,
+                    Producto producto = new Producto(id,txtNombre.getText(),txtaDescripcion.getText(),precioProveedor,precio,idProveedor,
                                                         cantidadInventario,cantidadMinima,cantidadPedido);
                     
                     // dependiendo de la acción se actualiza o se inserta un nuevo producto
@@ -307,19 +308,6 @@ public class FrmDatosProducto extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btCancelarMouseClicked
     
-    // metodo que devuelve el entero del ultimo ID registrado en la tabla de inventario
-    private int DevolverUltimoID(){
-        int id = 0;
-        String[] partesId;
-        Producto producto = productoDao.buscarUltimoProducto();
-        // verificamos que tenga registros la tabla
-        if(producto != null){
-            partesId = producto.getId().split("_");
-            id = Integer.parseInt(partesId[1]); // convertimos a entero
-        }
-        return id; // retornamos el id nuevo
-    }
-
   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -347,7 +335,7 @@ public class FrmDatosProducto extends javax.swing.JFrame {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmDatosProducto(new Producto(""),null).setVisible(true);
+                new FrmDatosProducto(new Producto(0),null).setVisible(true);
             }
         });
     }

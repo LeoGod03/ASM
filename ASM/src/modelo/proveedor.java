@@ -2,14 +2,14 @@
 package modelo;
 public final class Proveedor {
     // atributos de la clase
-    private String id;
+    private int id;
     private String nombre;
     private String telefono;
     private String correo;
     private boolean[] dias;
     
     // constructor para busquedas, solo recibe el ID como parametro
-    public Proveedor(String id){
+    public Proveedor(int id){
         this.id=id;
         setNombre("");
         setTelefono("");
@@ -17,7 +17,7 @@ public final class Proveedor {
         setDias(null);
     }
     // constructor para hacer los insert o updates en las tablas de la base de datos
-    public Proveedor(String id, String nombre, String telefono, String correo,boolean[] dias) {
+    public Proveedor(int id, String nombre, String telefono, String correo,boolean[] dias) {
         this.id = id;
         this.nombre = nombre;
         this.telefono = telefono;
@@ -26,7 +26,7 @@ public final class Proveedor {
     }
     
     // los metodos get y set de los atributos de la clase
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -44,8 +44,11 @@ public final class Proveedor {
 
    
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(int id) {
+        if(id > 0)
+            this.id = id;
+        else
+            this.id = 1;
     }
 
     public void setNombre(String nombre) {
@@ -66,7 +69,7 @@ public final class Proveedor {
     public void setDias(boolean[] dias) {
         this.dias = dias;
     }
-    // este metodo es para regresar una cadina en forma de lista estilo lunes,martes.....,domingo
+    // este metodo es para regresar una cadena en forma de lista estilo lunes,martes.....,domingo
     public String escribirDias(){
         String[] semana = {"Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"};
         String diasTexto = "";

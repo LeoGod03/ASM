@@ -33,7 +33,7 @@ public class ProveedorDao {
             ResultSet resultado = comando.executeQuery(); // ejecitamos y almacenamos resultados
             while(resultado.next()){ // mientras haya resultados se ejecutara el while
                 // llenamos el proveedor con lo obtenido
-                proveedor = new Proveedor(resultado.getString("id_proveedor"),
+                proveedor = new Proveedor(resultado.getInt("id_proveedor"),
                                           resultado.getString("nombre_proveedor"),
                                           resultado.getString("telefono"),
                                           resultado.getString("correo"),
@@ -64,7 +64,7 @@ public class ProveedorDao {
             comandoSQL = "INSERT INTO proveedor VALUES(?,?,?,?)"; // comando sql para insertar
             comando = conexion.prepareStatement(comandoSQL); // preparamos el comando
             //llenamos el insert con los datos obtenidos de proveedor
-            comando.setString(1,proveedor.getId());
+            comando.setInt(1,proveedor.getId());
             comando.setString(2, proveedor.getNombre());
             comando.setString(3, proveedor.getTelefono());
             comando.setString(4, proveedor.getCorreo());
@@ -88,7 +88,7 @@ public class ProveedorDao {
     public void eliminarProveedor(Proveedor proveedor){
          Connection conexion = administrador.dameConexion(); // pedimos la conexión 
         String comandoSQL;
-        comandoSQL = "DELETE FROM proveedor WHERE id_proveedor like '"+proveedor.getId()+"';"; // comando sql
+        comandoSQL = "DELETE FROM proveedor WHERE id_proveedor = "+proveedor.getId()+";"; // comando sql
 	PreparedStatement comando;
 	try {
             diasReparto.eliminarDiasReparto(proveedor, conexion); // eliminamos el registro en días reparto
@@ -107,7 +107,7 @@ public class ProveedorDao {
     public Proveedor buscarProveedor(Proveedor proveedor){
         Proveedor proveedorResultado = null; // inicializamos el proveedor resultado en nulo
         Connection conexion = administrador.dameConexion(); // pedimos la conexión
-	String comandoSQL = "SELECT * FROM proveedor WHERE id_proveedor like '"+proveedor.getId()+"'"; //comando sql
+	String comandoSQL = "SELECT * FROM proveedor WHERE id_proveedor = "+proveedor.getId()+";"; //comando sql
 	PreparedStatement comando;
 	try {
             boolean[] dias = diasReparto.buscarDiasReparto(proveedor, conexion); // pedimos los dias de reparto del proveedor
@@ -115,7 +115,7 @@ public class ProveedorDao {
             ResultSet resultado = comando.executeQuery(); // ejecutamos y guardamos el resultado
             if(resultado.next()){ // verificamos que exista un resultado
                 // gaurdamos el proveedor resultado
-                proveedorResultado = new Proveedor(resultado.getString("id_proveedor"),
+                proveedorResultado = new Proveedor(resultado.getInt("id_proveedor"),
                                   resultado.getString("nombre_proveedor"),
                                   resultado.getString("telefono"),
                                   resultado.getString("correo"),
@@ -138,7 +138,7 @@ public class ProveedorDao {
                           + "SET nombre_proveedor = '"+proveedor.getNombre()+"', "
                           + "telefono = '"+proveedor.getTelefono()+"', "
                           + "correo = '"+proveedor.getCorreo()+"' "
-                          + "WHERE id_proveedor = '"+proveedor.getId()+"';"; // comando sql 
+                          + "WHERE id_proveedor = "+proveedor.getId()+";"; // comando sql 
         PreparedStatement comando;
         try{
             diasReparto.actualizarDiasReparto(proveedor, conexion); // actualizamos los dias de reparto
@@ -165,7 +165,7 @@ public class ProveedorDao {
             comando = conexion.prepareStatement(comandoSQL); // preparamos el comando
             ResultSet resultado = comando.executeQuery(); //ejecutamos el comando y guardamos el resultado
             if(resultado.next())
-                proveedorResultado = new Proveedor(resultado.getString("id_proveedor")); // guardamos el proveedor resultado
+                proveedorResultado = new Proveedor(resultado.getInt("id_proveedor")); // guardamos el proveedor resultado
             
             comando.close(); // cerramos el comando
 	} catch (SQLException e) {
@@ -189,11 +189,11 @@ public class ProveedorDao {
             ResultSet resultado = comando.executeQuery(); // ejecutamos y guardamos el resultado
             while(resultado.next()){ // mientras existan registros se ejecutará el while
                 // llenamos el provedor del resultado
-                proveedor = new Proveedor(resultado.getString("id_proveedor"),
+                proveedor = new Proveedor(resultado.getInt("id_proveedor"),
                                           resultado.getString("nombre_proveedor"),
                                           resultado.getString("telefono"),
                                           resultado.getString("correo"),
-                                    diasReparto.buscarDiasReparto(new Proveedor(resultado.getString("id_proveedor")), conexion));
+                                    diasReparto.buscarDiasReparto(new Proveedor(resultado.getInt("id_proveedor")), conexion));
                 proveedores.add(proveedor); // agregamos el proveedor a la lista
             }
             comando.close(); // cerramos el comando
