@@ -195,8 +195,10 @@ public class FrmDatosProveedor extends javax.swing.JFrame {
                                     .addComponent(tboxSabado))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(tboxDomingo)
-                                    .addComponent(lblDomingo)))
+                                    .addComponent(lblDomingo)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(tboxDomingo))))
                             .addComponent(lblDiasReparto))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );

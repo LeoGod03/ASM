@@ -30,7 +30,6 @@ public class FrmDatosProducto extends javax.swing.JFrame {
             txtProveedor.setText(String.valueOf(producto.getIdProveedor()));
             txtCantidadMinima.setText(String.valueOf(producto.getCantidadMinima()));
             txtCantidadPedido.setText(String.valueOf(producto.getCantidadPedido()));
-            btnAgregarActualizar.setText("Agregar");
             accion = "actualizado";
         }
         else{

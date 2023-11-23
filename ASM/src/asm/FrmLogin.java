@@ -2,15 +2,24 @@
 package asm;
 
 import java.awt.event.KeyEvent;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 
 public class FrmLogin extends javax.swing.JFrame {
-
+    private Icon abierto;
+    private Icon cerrado;
    // constructor del form
     public FrmLogin() {
         initComponents(); // inicializan los componentes
+        pwUsuario.setEchoChar('*');
+        abierto = new ImageIcon("src/imagenes/ojo.png");
+        cerrado = new ImageIcon("src/imagenes/ojo2.png");
+        
+       btnVer.setIcon(cerrado);
     }
+    
 
     
     @SuppressWarnings("unchecked")
@@ -21,6 +30,7 @@ public class FrmLogin extends javax.swing.JFrame {
         lbUsuario = new javax.swing.JLabel();
         pwUsuario = new javax.swing.JPasswordField();
         btLogin = new javax.swing.JButton();
+        btnVer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,6 +61,15 @@ public class FrmLogin extends javax.swing.JFrame {
             }
         });
 
+        btnVer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ojo2.png"))); // NOI18N
+        btnVer.setBorder(null);
+        btnVer.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnVerMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -62,11 +81,13 @@ public class FrmLogin extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lbUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lbLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                            .addComponent(pwUsuario)))
+                            .addComponent(pwUsuario))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnVer, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(249, 249, 249)
-                        .addComponent(btLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(263, Short.MAX_VALUE))
+                        .addComponent(btLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(203, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -76,10 +97,12 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(pwUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pwUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnVer, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btLogin)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addComponent(btLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         lbLogo.getAccessibleContext().setAccessibleName("lbLogoTlapaleria");
@@ -113,6 +136,16 @@ public class FrmLogin extends javax.swing.JFrame {
            btLoginMousePressed(null);
     }//GEN-LAST:event_pwUsuarioKeyPressed
 
+    private void btnVerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVerMouseClicked
+        if(pwUsuario.getEchoChar() == '*'){
+            pwUsuario.setEchoChar((char)0);
+            btnVer.setIcon(abierto);
+        }else{
+            pwUsuario.setEchoChar('*');
+            btnVer.setIcon(cerrado);
+        }
+    }//GEN-LAST:event_btnVerMouseClicked
+
     
     public static void main(String args[]) {
        
@@ -125,6 +158,7 @@ public class FrmLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btLogin;
+    private javax.swing.JButton btnVer;
     private javax.swing.JLabel lbLogo;
     private javax.swing.JLabel lbUsuario;
     private javax.swing.JPasswordField pwUsuario;
